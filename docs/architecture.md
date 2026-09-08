@@ -8,9 +8,9 @@
 
 1. **Evidence Before Reasoning**: No claim enters the reasoning pipeline without exact, verbatim substring grounding on a 1-indexed source PDF page. Source documents remain the sole authoritative ground truth.
 2. **Comparability Before Numerical Comparison**: Never compare two numerical or semantic values before establishing that the claims represent the same underlying entity, metric, temporal interval, accounting scope, and unit dimension.
-3. **Deterministic Logic for Deterministic Transformations**: Unit conversions, currency scaling, percentage calculations, date range parsing, candidate matching, comparability gating, rounding reconciliation, and persistence must be executed by deterministic Python code, never delegated to probabilistic LLM generation.
+3. **Deterministic Logic for Deterministic Transformations**: Unit conversions, currency scaling, percentage calculations, date range parsing, candidate matching, comparability gating, relationship surfacing filtering, rounding reconciliation, and persistence must be executed by deterministic Python code, never delegated to probabilistic LLM generation.
 4. **Abstention Over Unsupported Inference**: When essential context (scope, time bounds, geography) is ambiguous or missing, the system emits `INSUFFICIENT_CONTEXT` / `UNRESOLVED` rather than guessing or fabricating contradictions.
-5. **Raw Facts Remain Fully Recoverable**: Normalization produces derived canonical views; the original raw string representation (`value_raw`, `unit`, `time_period.label`) and source excerpt (`supporting_text`) are immutably preserved.
+5. **Raw Facts Preserved Alongside Derived Canonical Views**: Normalization produces derived canonical views; the original raw string representation (`value_raw`, `unit`, `time_period.label`) and source excerpt (`supporting_text`) are preserved alongside the normalized representation.
 6. **Provenance Is Inherent, Not Metadata**: Provenance is an essential structural component of a `FactRecord`, not an afterthought appended after extraction.
 7. **Candidate Generation $\neq$ Comparability Proof**: Candidate matching identifies plausible pairs for evaluation; it does not constitute proof of semantic equivalence or comparability.
 8. **LLM Output Is an Untrusted Proposal**: LLM extraction responses are treated as candidate proposals subject to strict schema validation and deterministic page-level evidence verification before acceptance.
@@ -35,29 +35,29 @@ flowchart TB
         AnalysisSvc["AnalysisService Orchestrator\n(backend.services.analysis)"]
         
         subgraph Pipeline["Core Fact & Reasoning Pipeline"]
-            Parser["PDFParser (pypdf)"]
+            Parser["PDFParser (PyMuPDF)"]
             PageFilter["Page Relevance & Context Selector"]
             Extractor["FactExtractor (Gemini Client)"]
             Evidence["EvidenceVerifier (Substring Match)"]
             Normalizer["FactNormalizer (Deterministic Math)"]
             Matcher["CandidateMatcher (Conservative Heuristics)"]
             Gate["ComparabilityGate (8 Dimensions)"]
-            Engine["RelationshipEngine (Rule Hierarchy)"]
             Surfacing["RelationshipSurfacingFilter (Noise Reduction)"]
+            Engine["RelationshipEngine (Rule Hierarchy)"]
         end
 
         DB[(SQLite Embedded Store\nfactline.db)]
     end
 
     User -->|Uploads PDFs / Inspects Evidence| UI
-    UI -->|REST Requests (JSON / Multipart)| API
+    UI -->|"REST Requests (JSON / Multipart)"| API
     API -->|Orchestrates Processing| AnalysisSvc
     PDFs -->|Raw File Bytes| Parser
     
     AnalysisSvc --> Parser
     Parser --> PageFilter
     PageFilter --> Extractor
-    Extractor <-->|Structured JSON Batches| GeminiAPI
+    Extractor <-->|"Structured JSON Batches"| GeminiAPI
     Extractor --> Evidence
     Evidence --> Normalizer
     Normalizer --> Matcher
@@ -77,7 +77,7 @@ flowchart TB
 
 ```mermaid
 flowchart TD
-    A[Raw PDF Upload] --> B[PDFParser.parse_bytes]
+    A[Raw PDF Upload] --> B[PDFParser.parse_bytes via PyMuPDF]
     B --> C[ParsedDocument with 1-indexed PageTexts & Content Hash]
     C --> D[Page Relevance Filter: Score & Filter Informative Pages]
     D --> E[Context Selector: Region Detection & Context Radius 2]
@@ -100,7 +100,8 @@ flowchart TD
     O1 --> P[RelationshipSurfacingFilter: Filter Cross-Metric Noise]
     O2 --> P
     
-    P --> Q[RelationshipEngine: Rule Hierarchy & Rounding Resolution]
+    P -->|Surfaced Pair| Q[RelationshipEngine: Rule Hierarchy & Rounding Resolution]
+    P -->|Suppressed Noise| S1[Suppressed from Output]
     Q --> R[RelationshipResults: CORROBORATES, CONTRADICTS, CONTEXT_RESOLVES, EVOLVES_FROM, SUPERSEDES, UNRESOLVED]
     
     R --> S[DatabaseRepository: Atomic SQLite Persistence]
@@ -115,7 +116,7 @@ flowchart TD
 
 | Module / Component | Primary Responsibility | Deterministic? | External Dependencies |
 | :--- | :--- | :---: | :--- |
-| `backend/extraction/pdf_parser.py` | Parses binary PDF streams into 1-indexed page text objects with SHA256 content hashing. | ✓ | `pypdf` |
+| `backend/extraction/pdf_parser.py` | Parses binary PDF streams into 1-indexed page text objects with SHA256 content hashing. | ✓ | `pymupdf` (PyMuPDF) |
 | `backend/page_filter/relevance.py` | Computes numerical and semantic density scores to filter non-factual boilerplate pages. | ✓ | None |
 | `backend/context_selector/selector.py` | Expands relevant page contexts with adjacent page buffers (radius = 2) to preserve table headers. | ✓ | None |
 | `backend/extraction/prompts.py` | Maintains system instructions, few-shot examples, and strict JSON schema definitions for LLM extraction. | ✓ | None |
@@ -126,9 +127,9 @@ flowchart TD
 | `backend/normalization/dates.py` | Parses fiscal years, quarters, and explicit dates into bounded ISO 8601 intervals. | ✓ | `datetime` |
 | `backend/normalization/entities.py` | Canonicalizes entity strings into presentation-ready names. | ✓ | None |
 | `backend/reasoning/matcher.py` | Identifies candidate pairs using deterministic entity and metric key overlap heuristics. | ✓ | None |
-| `backend/reasoning/comparability.py` | Enforces the Comparability Gate across 8 dimensions before any numerical comparison. | ✓ | None |
-| `backend/reasoning/relationships.py` | Classifies relationships via locked rule hierarchy and mathematical display resolution derivation. | ✓ | `decimal.Decimal` |
+| `backend/reasoning/comparability.py` | Enforces the Comparability Gate across 8 dimensions (6 gating + 2 diagnostic) before numerical comparison. | ✓ | None |
 | `backend/reasoning/surfacing.py` | Suppresses cross-metric noise, self-pairs, and weak candidate relationships post-gate. | ✓ | None |
+| `backend/reasoning/relationships.py` | Classifies relationships via locked rule hierarchy and mathematical display resolution derivation. | ✓ | `decimal.Decimal` |
 | `backend/services/analysis.py` | Orchestrates the end-to-end multi-document analysis workflow and coordinates persistence. | ✓ | None |
 | `backend/db/database.py` | Manages SQLite connection pooling, foreign keys, schema migrations, and atomic transactions. | ✓ | `sqlite3` |
 | `backend/api/routes.py` | Defines FastAPI REST routes for upload, extraction, analysis, reasoning, and inspection. | ✓ | `fastapi` |
@@ -253,16 +254,16 @@ sequenceDiagram
         alt Normalized text contains normalized supporting_text
             EV->>NM: Verified FactRecord
         else Match Fails
-            EV-->>FE: REJECT Fact (Grounding Failure)
+            EV-->>FE: REJECT Fact (Grounding Invariant)
         end
     end
-    NM->>DB: NormalizedFact with Immutable Provenance
+    NM->>DB: NormalizedFact with Preserved Provenance
 ```
 
 ### Invariants:
 1. **1-Indexed Pagination**: Page numbers match the physical PDF page indices (1 to $N$).
 2. **Page-Boundary Integrity**: Facts extracted from Page $K$ must have supporting text located on Page $K$. Cross-page evidence leakage is strictly prohibited.
-3. **Zero Tolerance for Hallucinations**: If the model extracts a fact whose supporting quote cannot be matched on the claimed page, the candidate fact is immediately discarded (`facts_rejected_grounding += 1`).
+3. **Grounding Invariant**: Facts whose supporting evidence cannot be verified against the claimed source page are rejected (`facts_rejected_grounding += 1`).
 
 ---
 
@@ -295,7 +296,7 @@ Units and scales are parsed using `UnitNormalizer` and high-precision `decimal.D
 
 $$\text{Canonical Value} = \text{Raw Numeric} \times \text{Scale Multiplier}$$
 
-* `₹8,142 Cr` $\rightarrow$ `numeric_value: 8142000000.0`, `canonical_unit: "INR"`, `scale: "crore"` (multiplier $10^7$).
+* `₹8,142 Cr` $\rightarrow$ `numeric_value: 81420000000.0`, `canonical_unit: "INR"`, `scale: "crore"` (multiplier $10^7$).
 * `₹81,415.38 million` $\rightarrow$ `numeric_value: 81415380000.0`, `canonical_unit: "INR"`, `scale: "million"` (multiplier $10^6$).
 * `$1.5B` $\rightarrow$ `numeric_value: 1500000000.0`, `canonical_unit: "USD"`, `scale: "billion"` (multiplier $10^9$).
 
@@ -327,7 +328,7 @@ To prevent combinatorial explosion ($O(N^2)$ LLM calls), `CandidateMatcher` gene
 
 ## J. Comparability Gate Architecture
 
-The `ComparabilityGate` is the core architectural checkpoint. It inspects 8 orthogonal dimensions:
+The `ComparabilityGate` evaluates candidate pairs across 8 explicit dimensions (6 gating dimensions + 2 diagnostic dimensions):
 
 ```mermaid
 flowchart TD
@@ -345,7 +346,7 @@ flowchart TD
     D3 -- Yes --> D4{4. Time Interval Match?}
     
     D4 -- No --> R4[NON_COMPARABLE: TIME_MISMATCH]
-    D4 -- Missing --> U4[INSUFFICIENT_CONTEXT: MISSING_TIME]
+    D4 -- Missing --> U4[INSUFFICIENT_CONTEXT: MISSING_TIME_PERIOD]
     D4 -- Yes --> D5{5. Scope Compatible?}
     
     D5 -- No --> R5[NON_COMPARABLE: SCOPE_MISMATCH]
@@ -354,22 +355,27 @@ flowchart TD
     
     D6 -- No --> R6[NON_COMPARABLE: GEOGRAPHY_MISMATCH]
     D6 -- Missing --> U6[INSUFFICIENT_CONTEXT: MISSING_GEOGRAPHY]
-    D6 -- Yes --> Comp[Status: COMPARABLE]
+    D6 -- Yes --> D7[7. Evaluate Epistemic Status Difference]
+    
+    D7 --> D8[8. Evaluate Data Vintage Difference]
+    D8 --> Comp[Status: COMPARABLE]
 ```
 
-### Comparability Reason Codes
-* `ENTITY_MISMATCH` / `MISSING_ENTITY`
-* `METRIC_MISMATCH` / `MISSING_METRIC`
-* `UNIT_MISMATCH` / `MISSING_UNIT`
-* `TIME_MISMATCH` / `MISSING_TIME` (e.g., Annual vs. Q4)
-* `SCOPE_MISMATCH` / `MISSING_SCOPE` (e.g., Consolidated vs. Standalone)
-* `GEOGRAPHY_MISMATCH` / `MISSING_GEOGRAPHY`
+### The 8 Evaluated Dimensions:
+1. **Entity** (Gating): Must match canonical corporate/macroeconomic entity (`ENTITY_MISMATCH` / `MISSING_ENTITY`).
+2. **Metric** (Gating): Canonical metrics must align without semantic conflation (`METRIC_MISMATCH` / `MISSING_METRIC`).
+3. **Unit & Currency** (Gating): Units and currency dimensions must be compatible (`UNIT_MISMATCH` / `MISSING_UNIT`).
+4. **Time Period** (Gating): Temporal start and end bounds must match (`TIME_MISMATCH` / `MISSING_TIME_PERIOD`).
+5. **Scope** (Gating): Accounting scope (e.g., Consolidated vs. Standalone) must align (`SCOPE_MISMATCH` / `MISSING_SCOPE`).
+6. **Geography** (Gating): Geographic scope must align (`GEOGRAPHY_MISMATCH` / `MISSING_GEOGRAPHY`).
+7. **Epistemic Status** (Diagnostic): Modality difference (`EPISTEMIC_STATUS_DIFFERENCE`) recorded for downstream relationship rules.
+8. **Data Vintage** (Diagnostic): Revision vintage difference (`DATA_VINTAGE_DIFFERENCE`) recorded for downstream evolution rules.
 
 ---
 
 ## K. Relationship Engine Architecture
 
-Once declared `COMPARABLE`, facts are passed to the `RelationshipEngine`. It executes a deterministic rule hierarchy:
+Once declared `COMPARABLE` and surfaced past the `RelationshipSurfacingFilter`, facts are passed to the `RelationshipEngine`. It executes a locked rule hierarchy:
 
 ```mermaid
 flowchart TD
@@ -454,7 +460,7 @@ sequenceDiagram
 
 | Failure Mode | Detection Mechanism | System Behavior | Data Preserved? |
 | :--- | :--- | :--- | :---: |
-| **Corrupt / Non-PDF Upload** | `pypdf.PdfReader` exception in `PDFParser` | HTTP 400 Bad Request returned with clear error message. | N/A |
+| **Corrupt / Non-PDF Upload** | `pymupdf.FileDataError` exception in `PDFParser` | HTTP 400 Bad Request returned with clear error message. | N/A |
 | **Image-Only / Scanned Page** | Character count $< 50$ after parsing | Page marked non-informative by `PageRelevanceFilter`; skipped. | Yes |
 | **Malformed Model Output** | Pydantic JSON schema parsing validation error | Batch discarded; error logged; pipeline continues to next batch. | Verified facts retained |
 | **Evidence Grounding Failure** | Substring verification failure in `EvidenceVerifier` | Candidate fact dropped; grounding rejection metric incremented. | Valid facts retained |
@@ -545,7 +551,7 @@ The FastAPI application (`backend/main.py`, `backend/api/routes.py`) exposes the
 * `POST /documents/parse` $\rightarrow$ Stateless parsing of an uploaded PDF into 1-indexed `PageText` objects.
 * `POST /documents/extract-facts` $\rightarrow$ Parses PDF and returns grounded `FactRecord` objects.
 * `POST /reason/relationship` $\rightarrow$ Stateless comparability and relationship evaluation for two `NormalizedFact` objects.
-* `POST /analysis` $\rightarrow$ Multi-file upload orchestration: parsing, extraction, normalization, candidate matching, comparability gating, relationship evaluation, and persistence.
+* `POST /analysis` $\rightarrow$ Multi-file upload orchestration: parsing, extraction, normalization, candidate matching, comparability gating, surfacing filtering, relationship evaluation, and persistence.
 * `GET /analysis/{analysis_id}` $\rightarrow$ Retrieves full analysis record, document metadata, facts, and relationship graph from SQLite.
 * `GET /` $\rightarrow$ Root metadata.
 
@@ -580,7 +586,7 @@ In `backend/groq_experiment/`, an isolated evaluation was performed benchmarking
 * **Gemini 3.6 Flash**: 5/5 successful batches, 48 raw facts, 48 grounded facts (100% evidence verification).
 * **Groq `openai/gpt-oss-120b`**: 1/5 successful batches, 2 raw facts, 1 grounded fact, 2 schema validation errors (HTTP 400), 2 rate limit errors (HTTP 429 8k TPM).
 
-**Decision**: Gemini 3.6 Flash was retained as the sole production provider. The Groq harness remains strictly an experimental benchmark.
+**Decision**: Gemini completed all 5 benchmark batches without structured-output rejection; Groq encountered 2 schema-validation failures and rate limits. Gemini 3.6 Flash remains the sole production provider. Groq remains an isolated experimental benchmark.
 
 ---
 
@@ -588,7 +594,7 @@ In `backend/groq_experiment/`, an isolated evaluation was performed benchmarking
 
 | Decision | Chosen Approach | Alternative Considered | Rationale |
 | :--- | :--- | :--- | :--- |
-| **Model Provider** | Google Gemini 3.6 Flash | Groq / Local Models | Gemini exhibited 100% structured JSON compliance and zero schema rejections. |
+| **Model Provider** | Google Gemini 3.6 Flash | Groq / Local Models | Gemini completed all 5 benchmark batches without structured-output rejection. |
 | **Normalization** | Deterministic Python Engine | LLM-based Normalization | Eliminates arithmetic hallucinations and ensures mathematical rounding consistency. |
 | **Database** | Embedded SQLite | Neo4j / PostgreSQL | Zero operational overhead, single-file portability, and ACID transaction guarantees. |
 | **Candidate Pairing** | Conservative Heuristic Keys | Vector DB / Embeddings | Eliminates vector index latency and prevents false-positive semantic pairing. |

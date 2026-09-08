@@ -48,21 +48,21 @@ flowchart LR
     H --> I[Deterministic Normalization]
     I --> J[Candidate Matcher]
     J --> K[Comparability Gate]
-    K --> L[Relationship Engine]
-    L --> M[Relationship Surfacing Filter]
+    K --> L[Relationship Surfacing Filter]
+    L --> M[Relationship Engine]
     M --> N[(SQLite)]
     N --> O[Evidence-first UI]
 ```
 
-1. **Page-Aware PDF Parsing**: Extracts text while retaining strict 1-indexed page boundaries and document hashes.
+1. **Page-Aware PDF Parsing**: Extracts text using PyMuPDF while retaining strict 1-indexed page boundaries and deterministic SHA256 document content hashes.
 2. **Relevance Filtering & Context Selection**: Identifies informative factual pages and applies surrounding context windows.
 3. **Quota-Aware Semantic Extraction**: Gemini 3.6 Flash extracts candidate facts matching a strict JSON schema in 5-page batches.
 4. **Deterministic Evidence Verification**: Verifies that the LLM's proposed `supporting_text` exists verbatim on the source page. Ungrounded facts are rejected immediately.
 5. **Deterministic Normalization**: Normalizes numerical values, scales (crores, millions, billions), currencies, percentages, and ISO time ranges in Python.
 6. **Candidate Matching**: Identifies candidate pairs using conservative deterministic heuristics (no unbounded $O(N^2)$ LLM calls).
-7. **Comparability Gate**: Evaluates whether two facts are genuinely comparable across 8 explicit dimensions.
-8. **Relationship Engine**: Classifies relationships (`CORROBORATES`, `CONTRADICTS`, `CONTEXT_RESOLVES`, `EVOLVES_FROM`, `SUPERSEDES`, `UNRESOLVED`) using deterministic rules and mathematical rounding reconciliation.
-9. **Relationship Surfacing Filter**: Suppresses cross-metric noise and self-pairs.
+7. **Comparability Gate**: Evaluates whether two facts are genuinely comparable across 8 explicit dimensions (6 gating dimensions and 2 diagnostic dimensions).
+8. **Relationship Surfacing Filter**: Suppresses cross-metric noise and uninformative pairings post-gate.
+9. **Relationship Engine**: Classifies relationships (`CORROBORATES`, `CONTRADICTS`, `CONTEXT_RESOLVES`, `EVOLVES_FROM`, `SUPERSEDES`, `UNRESOLVED`) using deterministic rules and mathematical rounding reconciliation.
 10. **Atomic Persistence & Evidence-First UI**: Persists all documents, facts, relationships, and execution summaries to SQLite for dense visual inspection.
 
 ---
@@ -118,7 +118,8 @@ FACTLINE maintains a strict boundary between probabilistic extraction and determ
 | **Numeric & Unit Normalization** | | ✓ | Computes standard units and base-10 scale multipliers without LLM math errors. |
 | **Date & Interval Normalization** | | ✓ | Parses fiscal and calendar periods into ISO 8601 interval bounds. |
 | **Candidate Pairing** | | ✓ | Groups facts using conservative deterministic keys. |
-| **Comparability Gating** | | ✓ | Evaluates multi-dimensional compatibility rules. |
+| **Comparability Gating** | | ✓ | Evaluates multi-dimensional compatibility rules across 8 dimensions. |
+| **Relationship Surfacing Filter** | | ✓ | Filters uninformative cross-metric noise after gating. |
 | **Relationship Classification** | | ✓ | Applies locked rule hierarchy and vintage transitions. |
 | **Rounding Reconciliation** | | ✓ | Computes exact display resolution bounds ($\Delta_{\max} = 0.5 \times \max(R_A, R_B)$). |
 | **Persistence & Transactions** | | ✓ | Manages atomic SQLite operations with referential integrity. |
@@ -143,7 +144,7 @@ sequenceDiagram
     alt Substring match verified (exact or normalized whitespace)
         EV->>DB: Persist grounded FactRecord
     else Evidence verification failed
-        EV-->>EX: Reject candidate fact (0% tolerance for hallucinations)
+        EV-->>EX: Reject candidate fact (Grounding Invariant)
     end
 ```
 
@@ -157,7 +158,7 @@ sequenceDiagram
 
 ## 7. Structured Fact Model
 
-Facts are modeled as immutable `FactRecord` objects with dual representations:
+Facts are modeled as `FactRecord` objects with dual representations:
 
 ```python
 class FactRecord(BaseModel):
@@ -175,6 +176,8 @@ class FactRecord(BaseModel):
     provenance: Provenance            # doc_id, page_number, supporting_text, document_date
     extraction_confidence: float      # Model-assigned extraction confidence
 ```
+
+Original raw representations (`value_raw`, `unit`, `time_period.label`, and `supporting_text`) are preserved alongside the derived normalized representations.
 
 ---
 
@@ -214,26 +217,29 @@ The `ComparabilityGate` evaluates candidate pairs across 8 dimensions before any
 Status: COMPARABLE | NON_COMPARABLE | INSUFFICIENT_CONTEXT
 ```
 
-* **Entity**: Must refer to the same corporate or macroeconomic entity.
-* **Metric**: Canonical metrics must align without semantic conflation.
-* **Unit & Currency**: Units must be dimensionally compatible (e.g., currency to currency).
-* **Time Period**: Start and end date bounds must match. Sub-periods (e.g., `FY24` vs `Q4 FY24`) are flagged `NON_COMPARABLE` (`TIME_MISMATCH`).
-* **Scope**: Consolidated vs. Standalone operations must match.
-* **Geography**: Geographic scopes must align.
+* **Entity**: Must refer to the same corporate or macroeconomic entity (`ENTITY_MISMATCH` / `MISSING_ENTITY`).
+* **Metric**: Canonical metrics must align without semantic conflation (`METRIC_MISMATCH` / `MISSING_METRIC`).
+* **Unit & Currency**: Units must be dimensionally compatible (`UNIT_MISMATCH` / `MISSING_UNIT`).
+* **Time Period**: Start and end date bounds must match (`TIME_MISMATCH` / `MISSING_TIME_PERIOD`). Sub-periods (e.g., `FY24` vs `Q4 FY24`) are flagged `NON_COMPARABLE`.
+* **Scope**: Consolidated vs. Standalone operations must match (`SCOPE_MISMATCH` / `MISSING_SCOPE`).
+* **Geography**: Geographic scopes must align (`GEOGRAPHY_MISMATCH` / `MISSING_GEOGRAPHY`).
+* **Epistemic Status & Vintage Diagnostics**: Epistemic status differences (`EPISTEMIC_STATUS_DIFFERENCE`) and vintage differences (`DATA_VINTAGE_DIFFERENCE`) are recorded as diagnostic dimensions that inform downstream relationship reasoning.
 * **Abstention on Missing Context**: If either fact lacks crucial scope or temporal metadata, the gate returns `INSUFFICIENT_CONTEXT` rather than guessing.
 
 ---
 
 ## 11. Relationship Engine
 
-When a pair is declared `COMPARABLE`, the `RelationshipEngine` evaluates the claims through a locked rule hierarchy:
+When a pair is declared `COMPARABLE` and passes the surfacing filter, the `RelationshipEngine` evaluates the claims through a locked rule hierarchy:
 
 ```mermaid
 flowchart TD
     A[Normalized Fact Pair] --> B[Comparability Gate]
     B -->|NON_COMPARABLE| C[UNRESOLVED]
     B -->|INSUFFICIENT_CONTEXT| C
-    B -->|COMPARABLE| D[Relationship Rules]
+    B -->|COMPARABLE| S[Relationship Surfacing Filter]
+    S -->|Suppressed Noise| C
+    S -->|Surfaced Pair| D[Relationship Rules]
     D --> E{Exact canonical value?}
     E -->|Yes| F[CORROBORATES]
     E -->|No| G{Rounding-compatible?}
@@ -318,7 +324,7 @@ The FastAPI backend exposes the following REST endpoints:
 * `POST /documents/parse`: Parses an uploaded PDF into 1-indexed page text records.
 * `POST /documents/extract-facts`: Parses a PDF and extracts grounded `FactRecord` objects.
 * `POST /reason/relationship`: Evaluates comparability and relationship between two normalized facts.
-* `POST /analysis`: Orchestrates end-to-end multi-document parsing, extraction, normalization, matching, comparability gating, relationship evaluation, and persistence.
+* `POST /analysis`: Orchestrates end-to-end multi-document parsing, extraction, normalization, matching, comparability gating, surfacing filtering, relationship evaluation, and persistence.
 * `GET /analysis/{analysis_id}`: Retrieves complete stored analysis results, facts, and relationship graphs.
 * `GET /`: API root metadata and documentation link.
 
@@ -372,7 +378,7 @@ FACTLINE was evaluated against a large, complex official report:
 * **Document**: `03-imf-india-2025-article-iv-excerpt.pdf` (95 total pages, 90 eligible content pages).
 * **Execution**: Bounded 30-page processing with 2-worker concurrency.
 * **Outcome**: 77 verified facts extracted across macroeconomic indicators, inflation figures, and debt ratios.
-* **Grounding Accuracy**: 0 evidence grounding rejections (100% of persisted facts verified verbatim).
+* **Grounding Invariant**: 0 evidence grounding rejections among persisted facts.
 * **Status**: Clean `PARTIAL_QUOTA` completion with zero unhandled exceptions.
 
 ---
@@ -386,11 +392,11 @@ To assess provider portability, an isolated benchmark was conducted in `backend/
 | **Successful Batches** | **5 / 5 (100%)** | 1 / 5 (20%) |
 | **Raw Facts Extracted** | **48** | 2 |
 | **Verified Grounded Facts** | **48** | 1 |
-| **Evidence Grounding Rate** | **100%** | 50% (1/2 facts) |
+| **Evidence Grounding Rate** | **100%** (48/48) | 50% (1/2 facts) |
 | **Schema Validation Errors** | **0** | 2 (HTTP 400 schema validation failures) |
 | **Rate Limit Failures** | **0** | 2 (HTTP 429 8,000 TPM limit exceeded) |
 
-**Conclusion**: Gemini 3.6 Flash remains the sole production provider due to strict JSON compliance and reliable throughput. Groq remains an isolated experimental benchmark.
+**Conclusion**: Gemini completed all 5 benchmark batches without structured-output rejection; Groq encountered 2 schema-validation failures and rate limits. Gemini 3.6 Flash remains the sole production provider. Groq remains an isolated experimental benchmark.
 
 ---
 
