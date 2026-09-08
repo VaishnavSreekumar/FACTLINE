@@ -1,0 +1,445 @@
+{
+  "metrics": {
+    "fact_recall_pct": 55.55555555555556,
+    "fact_precision_pct": 3.6900369003690034,
+    "evidence_grounding_rate_pct": 100.0,
+    "numeric_accuracy_pct": 90.0,
+    "time_accuracy_pct": 0.0,
+    "entity_accuracy_pct": 0.0,
+    "unsupported_fact_count": 0,
+    "avg_page_latency_ms": 124.89424811469183,
+    "total_benchmark_time_s": 2.248096466064453,
+    "ram_peak_mb": 260.875,
+    "external_api_required": false
+  },
+  "cases": [
+    {
+      "case_id": "case-01-delhivery-ar24-shipments",
+      "category": "inequality_count",
+      "difficulty": "simple",
+      "page": 2,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 36.03935241699219,
+      "extracted_count": 9,
+      "matched_fact": {
+        "fact_id": "fact-loc-06537c27",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": ">2.8Bn",
+        "value_numeric": null,
+        "unit": null,
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 2,
+          "supporting_text": ">2.8Bn(1)"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-02-delhivery-ar24-freight",
+      "category": "inequality_weight",
+      "difficulty": "medium",
+      "page": 2,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 29.28924560546875,
+      "extracted_count": 9,
+      "matched_fact": {
+        "fact_id": "fact-loc-cb3fb7fb",
+        "entity": "Unspecified Entity",
+        "metric": "Part-Truckload Freight Volume",
+        "value_raw": ">4.8Mn tonnes",
+        "value_numeric": null,
+        "unit": "tonnes",
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 2,
+          "supporting_text": ">4.8Mn tonnes"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-03-delhivery-ar24-customers",
+      "category": "count_inequality",
+      "difficulty": "simple",
+      "page": 2,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 28.672456741333008,
+      "extracted_count": 9,
+      "matched_fact": {
+        "fact_id": "fact-loc-fb60f8f1",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": ">33,200",
+        "value_numeric": 33200.0,
+        "unit": null,
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 2,
+          "supporting_text": ">33,200"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-04-delhivery-ar24-revenue",
+      "category": "monetary_annual_report",
+      "difficulty": "medium",
+      "page": 4,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 70.5113410949707,
+      "extracted_count": 16,
+      "matched_fact": {
+        "fact_id": "fact-loc-88143444",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": "\u20b981,415Mn",
+        "value_numeric": null,
+        "unit": "INR",
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 4,
+          "supporting_text": "\u20b981,415Mn"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-05-delhivery-q4-revenue",
+      "category": "monetary_presentation",
+      "difficulty": "medium",
+      "page": 6,
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "passed": true,
+      "latency_ms": 29.320955276489258,
+      "extracted_count": 10,
+      "matched_fact": {
+        "fact_id": "fact-loc-25bd8209",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": "\u20b98,142 Cr",
+        "value_numeric": 8142.0,
+        "unit": "INR",
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+          "document_date": null,
+          "page_number": 6,
+          "supporting_text": "\u20b98,142 Cr"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-06-delhivery-q4-customers",
+      "category": "exact_count",
+      "difficulty": "simple",
+      "page": 8,
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "passed": true,
+      "latency_ms": 183.33053588867188,
+      "extracted_count": 27,
+      "matched_fact": {
+        "fact_id": "fact-loc-7fe1aeb1",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": "33,278",
+        "value_numeric": 33278.0,
+        "unit": null,
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+          "document_date": null,
+          "page_number": 8,
+          "supporting_text": "33,278"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-07-delhivery-prospectus-pincodes",
+      "category": "count_reach",
+      "difficulty": "simple",
+      "page": 1,
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 452.4238109588623,
+      "extracted_count": 43,
+      "matched_fact": {
+        "fact_id": "fact-loc-b57ff872",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": "\u20b91",
+        "value_numeric": 1.0,
+        "unit": "INR",
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "01-delhivery-prospectus-2022-excerpt.pdf",
+          "document_date": null,
+          "page_number": 1,
+          "supporting_text": "The face value of the Equity Shares is \u20b91 each. The Floor Price and Cap Price determined by our Company and the Selling Shareholders, in consultation with"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-08-india-econ-survey-gdp-fae",
+      "category": "percentage_macro",
+      "difficulty": "medium",
+      "page": 4,
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 86.40503883361816,
+      "extracted_count": 1,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-09-rbi-ar-gdp-sae",
+      "category": "percentage_macro",
+      "difficulty": "medium",
+      "page": 10,
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 171.644926071167,
+      "extracted_count": 17,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-10-imf-article-iv-gdp-proj",
+      "category": "percentage_projection",
+      "difficulty": "hard",
+      "page": 10,
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 122.37787246704102,
+      "extracted_count": 6,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-11-delhivery-ar24-multifact-p2",
+      "category": "multi_fact_page",
+      "difficulty": "medium",
+      "page": 2,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 29.60968017578125,
+      "extracted_count": 9,
+      "matched_fact": {
+        "fact_id": "fact-loc-c8087f4a",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": ">33,200",
+        "value_numeric": 33200.0,
+        "unit": null,
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 2,
+          "supporting_text": ">33,200"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-12-delhivery-ar24-fin-p22",
+      "category": "financial_table",
+      "difficulty": "hard",
+      "page": 22,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 447.6428031921387,
+      "extracted_count": 73,
+      "matched_fact": {
+        "fact_id": "fact-loc-30d72220",
+        "entity": "Unspecified Entity",
+        "metric": "Unspecified Metric",
+        "value_raw": "81,415.38",
+        "value_numeric": 81415.38,
+        "unit": null,
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 22,
+          "supporting_text": "81,415.38"
+        },
+        "extraction_confidence": 0.88
+      }
+    },
+    {
+      "case_id": "case-13-econ-survey-gdp-p21",
+      "category": "macro_table",
+      "difficulty": "hard",
+      "page": 21,
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 67.81220436096191,
+      "extracted_count": 4,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-14-rbi-ar-macro-p24",
+      "category": "rbi_report_table",
+      "difficulty": "hard",
+      "page": 24,
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 119.40336227416992,
+      "extracted_count": 17,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-15-imf-artiv-proj-p13",
+      "category": "imf_macro_table",
+      "difficulty": "hard",
+      "page": 13,
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 94.15316581726074,
+      "extracted_count": 12,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-16-delhivery-q4-infographic-p3",
+      "category": "infographic_slide",
+      "difficulty": "medium",
+      "page": 3,
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "passed": false,
+      "latency_ms": 55.809736251831055,
+      "extracted_count": 0,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-17-delhivery-prospectus-multi-col-p2",
+      "category": "multi_column_prose",
+      "difficulty": "hard",
+      "page": 2,
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "passed": false,
+      "latency_ms": 193.29047203063965,
+      "extracted_count": 0,
+      "matched_fact": null
+    },
+    {
+      "case_id": "case-18-delhivery-ar24-multi-unit-p2",
+      "category": "multi_scale_page",
+      "difficulty": "hard",
+      "page": 2,
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "passed": true,
+      "latency_ms": 30.359506607055664,
+      "extracted_count": 9,
+      "matched_fact": {
+        "fact_id": "fact-loc-018b327b",
+        "entity": "Unspecified Entity",
+        "metric": "Part-Truckload Freight Volume",
+        "value_raw": ">4.8Mn tonnes",
+        "value_numeric": null,
+        "unit": "tonnes",
+        "time_period": {
+          "label": "Unspecified Period",
+          "start_date": null,
+          "end_date": null
+        },
+        "scope": null,
+        "geography": null,
+        "epistemic_status": "reported",
+        "data_vintage": null,
+        "provenance": {
+          "document_id": "02-delhivery-annual-report-fy24-excerpt.pdf",
+          "document_date": null,
+          "page_number": 2,
+          "supporting_text": ">4.8Mn tonnes"
+        },
+        "extraction_confidence": 0.88
+      }
+    }
+  ]
+}

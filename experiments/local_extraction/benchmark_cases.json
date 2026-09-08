@@ -1,0 +1,384 @@
+{
+  "benchmark_version": "1.0.0",
+  "description": "FACTLINE Phase 10 Local Extraction Benchmark Dataset (18 gold-standard benchmark cases from real starter PDF pages).",
+  "cases": [
+    {
+      "id": "case-01-delhivery-ar24-shipments",
+      "category": "inequality_count",
+      "difficulty": "simple",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery cumulative parcel shipments since inception with inequality qualifier (>)",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Express Parcel Shipment Volume",
+        "value_raw": ">2.8Bn",
+        "value_numeric": 2800000000.0,
+        "unit": "shipments",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": ">2.8Bn(1)"
+      }
+    },
+    {
+      "id": "case-02-delhivery-ar24-freight",
+      "category": "inequality_weight",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery PTL freight volume delivered in FY24 with inequality qualifier (>)",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Part-Truckload Freight Volume",
+        "value_raw": ">4.8Mn tonnes",
+        "value_numeric": 4800000.0,
+        "unit": "tonnes",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": ">4.8Mn tonnes"
+      }
+    },
+    {
+      "id": "case-03-delhivery-ar24-customers",
+      "category": "count_inequality",
+      "difficulty": "simple",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery active customers in FY24 with inequality qualifier (>)",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Active Customers",
+        "value_raw": ">33,200",
+        "value_numeric": 33200.0,
+        "unit": "customers",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": ">33,200"
+      }
+    },
+    {
+      "id": "case-04-delhivery-ar24-revenue",
+      "category": "monetary_annual_report",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 4,
+      "description": "Delhivery Full Year FY24 Highlights Revenue (Millions INR)",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Revenue from Operations",
+        "value_raw": "₹81,415Mn",
+        "value_numeric": 81415.0,
+        "unit": "INR",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "₹81,415Mn"
+      }
+    },
+    {
+      "id": "case-05-delhivery-q4-revenue",
+      "category": "monetary_presentation",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 6,
+      "description": "Delhivery Full Year FY24 Revenue presentation in Crores",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Revenue from Operations",
+        "value_raw": "₹8,142 Cr",
+        "value_numeric": 8142.0,
+        "unit": "INR",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "₹8,142 Cr"
+      }
+    },
+    {
+      "id": "case-06-delhivery-q4-customers",
+      "category": "exact_count",
+      "difficulty": "simple",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 8,
+      "description": "Delhivery Exact active customer count in Q4 FY24 presentation",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Active Customers",
+        "value_raw": "33,278",
+        "value_numeric": 33278.0,
+        "unit": "customers",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "33,278"
+      }
+    },
+    {
+      "id": "case-07-delhivery-prospectus-pincodes",
+      "category": "count_reach",
+      "difficulty": "simple",
+      "pdf_path": "sample-data/starter-datasets/delhivery/01-delhivery-prospectus-2022-excerpt.pdf",
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "page": 1,
+      "description": "Delhivery Pin codes covered across India",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Pin Code Reach",
+        "value_raw": "17,000+",
+        "value_numeric": 17000.0,
+        "unit": "pin codes",
+        "time_period": "2021-22",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "17,000+"
+      }
+    },
+    {
+      "id": "case-08-india-econ-survey-gdp-fae",
+      "category": "percentage_macro",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 4,
+      "description": "India Real GDP growth rate per First Advance Estimates (FAE)",
+      "expected_fact": {
+        "entity": "Government of India",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.4%",
+        "value_numeric": 6.4,
+        "unit": "percent",
+        "time_period": "2024-25",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "estimated",
+        "supporting_text": "6.4%"
+      }
+    },
+    {
+      "id": "case-09-rbi-ar-gdp-sae",
+      "category": "percentage_macro",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 10,
+      "description": "India Real GDP growth rate per RBI / Second Advance Estimates (SAE)",
+      "expected_fact": {
+        "entity": "Reserve Bank of India",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.5%",
+        "value_numeric": 6.5,
+        "unit": "percent",
+        "time_period": "2024-25",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "estimated",
+        "supporting_text": "6.5%"
+      }
+    },
+    {
+      "id": "case-10-imf-article-iv-gdp-proj",
+      "category": "percentage_projection",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 10,
+      "description": "IMF Article IV Baseline Projection for India Real GDP growth",
+      "expected_fact": {
+        "entity": "International Monetary Fund",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.5%",
+        "value_numeric": 6.5,
+        "unit": "percent",
+        "time_period": "2025-26",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "projected",
+        "supporting_text": "6.5%"
+      }
+    },
+    {
+      "id": "case-11-delhivery-ar24-multifact-p2",
+      "category": "multi_fact_page",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Multiple operational scale facts on single corporate overview page",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Active Customers",
+        "value_raw": ">33,200",
+        "value_numeric": 33200.0,
+        "unit": "customers",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": ">33,200"
+      }
+    },
+    {
+      "id": "case-12-delhivery-ar24-fin-p22",
+      "category": "financial_table",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 22,
+      "description": "Delhivery Consolidated Financial Statements table revenue row",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Revenue from Operations",
+        "value_raw": "81,415.38",
+        "value_numeric": 81415.38,
+        "unit": "INR",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "81,415.38"
+      }
+    },
+    {
+      "id": "case-13-econ-survey-gdp-p21",
+      "category": "macro_table",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 21,
+      "description": "Economic Survey Statistical Appendix Real GDP growth table",
+      "expected_fact": {
+        "entity": "Government of India",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.4%",
+        "value_numeric": 6.4,
+        "unit": "percent",
+        "time_period": "2024-25",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "estimated",
+        "supporting_text": "6.4%"
+      }
+    },
+    {
+      "id": "case-14-rbi-ar-macro-p24",
+      "category": "rbi_report_table",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 24,
+      "description": "RBI Annual Report Real GDP Growth assessment table",
+      "expected_fact": {
+        "entity": "Reserve Bank of India",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.5%",
+        "value_numeric": 6.5,
+        "unit": "percent",
+        "time_period": "2024-25",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "estimated",
+        "supporting_text": "6.5%"
+      }
+    },
+    {
+      "id": "case-15-imf-artiv-proj-p13",
+      "category": "imf_macro_table",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 13,
+      "description": "IMF Article IV Selected Economic Indicators baseline growth",
+      "expected_fact": {
+        "entity": "International Monetary Fund",
+        "metric": "Real GDP Growth",
+        "value_raw": "6.5%",
+        "value_numeric": 6.5,
+        "unit": "percent",
+        "time_period": "2025-26",
+        "scope": "National",
+        "geography": "India",
+        "epistemic_status": "projected",
+        "supporting_text": "6.5%"
+      }
+    },
+    {
+      "id": "case-16-delhivery-q4-infographic-p3",
+      "category": "infographic_slide",
+      "difficulty": "medium",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 3,
+      "description": "Delhivery Q4 Earnings Overview Infographic",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Revenue from Operations",
+        "value_raw": "₹8,142 Cr",
+        "value_numeric": 8142.0,
+        "unit": "INR",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "₹8,142 Cr"
+      }
+    },
+    {
+      "id": "case-17-delhivery-prospectus-multi-col-p2",
+      "category": "multi_column_prose",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/delhivery/01-delhivery-prospectus-2022-excerpt.pdf",
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery Prospectus Summary of Offer section",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Pin Code Reach",
+        "value_raw": "17,000+",
+        "value_numeric": 17000.0,
+        "unit": "pin codes",
+        "time_period": "2021-22",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": "17,000+"
+      }
+    },
+    {
+      "id": "case-18-delhivery-ar24-multi-unit-p2",
+      "category": "multi_scale_page",
+      "difficulty": "hard",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Co-existence of Mn tonnes, Bn shipments, and counts on a single page",
+      "expected_fact": {
+        "entity": "Delhivery Limited",
+        "metric": "Part-Truckload Freight Volume",
+        "value_raw": ">4.8Mn tonnes",
+        "value_numeric": 4800000.0,
+        "unit": "tonnes",
+        "time_period": "FY24",
+        "scope": "Consolidated",
+        "geography": "India",
+        "epistemic_status": "reported",
+        "supporting_text": ">4.8Mn tonnes"
+      }
+    }
+  ]
+}

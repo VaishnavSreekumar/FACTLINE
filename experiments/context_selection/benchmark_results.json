@@ -1,0 +1,2383 @@
+{
+  "benchmark_metadata": {
+    "total_benchmark_cases": 25,
+    "fact_bearing_cases": 15,
+    "narrative_noise_cases": 10,
+    "sweep_radii_tested": [
+      1,
+      2,
+      3,
+      5
+    ]
+  },
+  "sweep_results": [
+    {
+      "expansion_radius": 1,
+      "region_recall_pct": 100.0,
+      "gold_facts_covered": "24/24",
+      "evidence_preservation_pct": 100.0,
+      "total_original_chars": 55800,
+      "total_selected_chars": 36600,
+      "average_character_reduction_pct": 34.41,
+      "median_character_reduction_pct": 20.72,
+      "average_windows_per_page": 3.36,
+      "max_windows_per_page": 18,
+      "context_completeness": {
+        "entity": {
+          "covered": 8,
+          "total": 8,
+          "percentage": 100.0
+        },
+        "metric": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "value": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "unit": {
+          "covered": 20,
+          "total": 20,
+          "percentage": 100.0
+        },
+        "time_period": {
+          "covered": 21,
+          "total": 21,
+          "percentage": 100.0
+        },
+        "scope": {
+          "covered": 1,
+          "total": 1,
+          "percentage": 100.0
+        }
+      },
+      "case_details": [
+        {
+          "case_id": "case-01-delhivery-ar24-p2",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 874,
+          "selected_chars": 833,
+          "reduction_ratio": 0.0469,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p2-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-02-delhivery-ar24-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2440,
+          "selected_chars": 1905,
+          "reduction_ratio": 0.2193,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-03-delhivery-ar24-p6",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 1267,
+          "selected_chars": 1215,
+          "reduction_ratio": 0.041,
+          "window_count": 4,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-04-delhivery-ar24-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 4156,
+          "selected_chars": 1831,
+          "reduction_ratio": 0.5594,
+          "window_count": 9,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-05-delhivery-ar24-p22",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 9690,
+          "selected_chars": 5048,
+          "reduction_ratio": 0.4791,
+          "window_count": 6,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p22-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-06-delhivery-q4-p5",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 644,
+          "selected_chars": 643,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p5-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-07-delhivery-q4-p6",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 624,
+          "selected_chars": 623,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true,
+                "scope": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-08-delhivery-q4-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 1168,
+          "selected_chars": 730,
+          "reduction_ratio": 0.375,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p8-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-09-delhivery-q4-p20",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 441,
+          "selected_chars": 440,
+          "reduction_ratio": 0.0023,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p20-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-10-india-econ-survey-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2517,
+          "selected_chars": 653,
+          "reduction_ratio": 0.7406,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-11-india-econ-survey-p6",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 2375,
+          "selected_chars": 1883,
+          "reduction_ratio": 0.2072,
+          "window_count": 4,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "india-econ-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-12-rbi-ar-p10",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 3506,
+          "selected_chars": 1890,
+          "reduction_ratio": 0.4609,
+          "window_count": 6,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p10-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "rbi-ar-p10-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-13-rbi-ar-p24",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 2757,
+          "selected_chars": 2073,
+          "reduction_ratio": 0.2481,
+          "window_count": 9,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p24-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-14-imf-artiv-p5",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 3853,
+          "selected_chars": 2133,
+          "reduction_ratio": 0.4464,
+          "window_count": 18,
+          "fact_evaluations": [
+            {
+              "fact_id": "imf-artiv-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-15-imf-artiv-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 0,
+          "selected_chars": 0,
+          "reduction_ratio": 0.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-16-imf-artiv-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1782,
+          "selected_chars": 1315,
+          "reduction_ratio": 0.2621,
+          "window_count": 3,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-17-delhivery-prospectus-p2",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 7263,
+          "selected_chars": 7061,
+          "reduction_ratio": 0.0278,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-18-india-econ-survey-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 1316,
+          "selected_chars": 771,
+          "reduction_ratio": 0.4141,
+          "window_count": 5,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-19-rbi-ar-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 3503,
+          "selected_chars": 3281,
+          "reduction_ratio": 0.0634,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-20-delhivery-ar24-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1903,
+          "selected_chars": 727,
+          "reduction_ratio": 0.618,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-21-delhivery-ar24-p10",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1027,
+          "selected_chars": 924,
+          "reduction_ratio": 0.1003,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-22-delhivery-q4-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 32,
+          "selected_chars": 31,
+          "reduction_ratio": 0.0312,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-23-delhivery-q4-p3",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 2070,
+          "selected_chars": 0,
+          "reduction_ratio": 1.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-24-delhivery-q4-p4",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 27,
+          "selected_chars": 26,
+          "reduction_ratio": 0.037,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-25-delhivery-q4-p7",
+          "case_type": "Case H \u2014 Cross-page context",
+          "original_chars": 565,
+          "selected_chars": 564,
+          "reduction_ratio": 0.0018,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p7-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p7-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expansion_radius": 2,
+      "region_recall_pct": 100.0,
+      "gold_facts_covered": "24/24",
+      "evidence_preservation_pct": 100.0,
+      "total_original_chars": 55800,
+      "total_selected_chars": 40341,
+      "average_character_reduction_pct": 27.7,
+      "median_character_reduction_pct": 12.59,
+      "average_windows_per_page": 2.44,
+      "max_windows_per_page": 12,
+      "context_completeness": {
+        "entity": {
+          "covered": 8,
+          "total": 8,
+          "percentage": 100.0
+        },
+        "metric": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "value": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "unit": {
+          "covered": 20,
+          "total": 20,
+          "percentage": 100.0
+        },
+        "time_period": {
+          "covered": 21,
+          "total": 21,
+          "percentage": 100.0
+        },
+        "scope": {
+          "covered": 1,
+          "total": 1,
+          "percentage": 100.0
+        }
+      },
+      "case_details": [
+        {
+          "case_id": "case-01-delhivery-ar24-p2",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 874,
+          "selected_chars": 852,
+          "reduction_ratio": 0.0252,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p2-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-02-delhivery-ar24-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2440,
+          "selected_chars": 2053,
+          "reduction_ratio": 0.1586,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-03-delhivery-ar24-p6",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 1267,
+          "selected_chars": 1266,
+          "reduction_ratio": 0.0008,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-04-delhivery-ar24-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 4156,
+          "selected_chars": 2345,
+          "reduction_ratio": 0.4358,
+          "window_count": 8,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-05-delhivery-ar24-p22",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 9690,
+          "selected_chars": 5552,
+          "reduction_ratio": 0.427,
+          "window_count": 6,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p22-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-06-delhivery-q4-p5",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 644,
+          "selected_chars": 643,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p5-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-07-delhivery-q4-p6",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 624,
+          "selected_chars": 623,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true,
+                "scope": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-08-delhivery-q4-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 1168,
+          "selected_chars": 788,
+          "reduction_ratio": 0.3253,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p8-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-09-delhivery-q4-p20",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 441,
+          "selected_chars": 440,
+          "reduction_ratio": 0.0023,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p20-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-10-india-econ-survey-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2517,
+          "selected_chars": 1035,
+          "reduction_ratio": 0.5888,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-11-india-econ-survey-p6",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 2375,
+          "selected_chars": 2076,
+          "reduction_ratio": 0.1259,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "india-econ-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-12-rbi-ar-p10",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 3506,
+          "selected_chars": 2523,
+          "reduction_ratio": 0.2804,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p10-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "rbi-ar-p10-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-13-rbi-ar-p24",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 2757,
+          "selected_chars": 2306,
+          "reduction_ratio": 0.1636,
+          "window_count": 6,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p24-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-14-imf-artiv-p5",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 3853,
+          "selected_chars": 2412,
+          "reduction_ratio": 0.374,
+          "window_count": 12,
+          "fact_evaluations": [
+            {
+              "fact_id": "imf-artiv-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-15-imf-artiv-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 0,
+          "selected_chars": 0,
+          "reduction_ratio": 0.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-16-imf-artiv-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1782,
+          "selected_chars": 1402,
+          "reduction_ratio": 0.2132,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-17-delhivery-prospectus-p2",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 7263,
+          "selected_chars": 7262,
+          "reduction_ratio": 0.0001,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-18-india-econ-survey-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 1316,
+          "selected_chars": 1041,
+          "reduction_ratio": 0.209,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-19-rbi-ar-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 3503,
+          "selected_chars": 3292,
+          "reduction_ratio": 0.0602,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-20-delhivery-ar24-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1903,
+          "selected_chars": 804,
+          "reduction_ratio": 0.5775,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-21-delhivery-ar24-p10",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1027,
+          "selected_chars": 1005,
+          "reduction_ratio": 0.0214,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-22-delhivery-q4-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 32,
+          "selected_chars": 31,
+          "reduction_ratio": 0.0312,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-23-delhivery-q4-p3",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 2070,
+          "selected_chars": 0,
+          "reduction_ratio": 1.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-24-delhivery-q4-p4",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 27,
+          "selected_chars": 26,
+          "reduction_ratio": 0.037,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-25-delhivery-q4-p7",
+          "case_type": "Case H \u2014 Cross-page context",
+          "original_chars": 565,
+          "selected_chars": 564,
+          "reduction_ratio": 0.0018,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p7-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p7-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expansion_radius": 3,
+      "region_recall_pct": 100.0,
+      "gold_facts_covered": "24/24",
+      "evidence_preservation_pct": 100.0,
+      "total_original_chars": 55800,
+      "total_selected_chars": 43515,
+      "average_character_reduction_pct": 22.02,
+      "median_character_reduction_pct": 3.7,
+      "average_windows_per_page": 1.76,
+      "max_windows_per_page": 7,
+      "context_completeness": {
+        "entity": {
+          "covered": 8,
+          "total": 8,
+          "percentage": 100.0
+        },
+        "metric": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "value": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "unit": {
+          "covered": 20,
+          "total": 20,
+          "percentage": 100.0
+        },
+        "time_period": {
+          "covered": 21,
+          "total": 21,
+          "percentage": 100.0
+        },
+        "scope": {
+          "covered": 1,
+          "total": 1,
+          "percentage": 100.0
+        }
+      },
+      "case_details": [
+        {
+          "case_id": "case-01-delhivery-ar24-p2",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 874,
+          "selected_chars": 873,
+          "reduction_ratio": 0.0011,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p2-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-02-delhivery-ar24-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2440,
+          "selected_chars": 2267,
+          "reduction_ratio": 0.0709,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-03-delhivery-ar24-p6",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 1267,
+          "selected_chars": 1266,
+          "reduction_ratio": 0.0008,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-04-delhivery-ar24-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 4156,
+          "selected_chars": 3111,
+          "reduction_ratio": 0.2514,
+          "window_count": 3,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-05-delhivery-ar24-p22",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 9690,
+          "selected_chars": 6167,
+          "reduction_ratio": 0.3636,
+          "window_count": 5,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p22-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-06-delhivery-q4-p5",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 644,
+          "selected_chars": 643,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p5-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-07-delhivery-q4-p6",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 624,
+          "selected_chars": 623,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true,
+                "scope": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-08-delhivery-q4-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 1168,
+          "selected_chars": 792,
+          "reduction_ratio": 0.3219,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p8-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-09-delhivery-q4-p20",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 441,
+          "selected_chars": 440,
+          "reduction_ratio": 0.0023,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p20-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-10-india-econ-survey-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2517,
+          "selected_chars": 1514,
+          "reduction_ratio": 0.3985,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-11-india-econ-survey-p6",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 2375,
+          "selected_chars": 2341,
+          "reduction_ratio": 0.0143,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "india-econ-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-12-rbi-ar-p10",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 3506,
+          "selected_chars": 2669,
+          "reduction_ratio": 0.2387,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p10-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "rbi-ar-p10-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-13-rbi-ar-p24",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 2757,
+          "selected_chars": 2472,
+          "reduction_ratio": 0.1034,
+          "window_count": 4,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p24-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-14-imf-artiv-p5",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 3853,
+          "selected_chars": 2545,
+          "reduction_ratio": 0.3395,
+          "window_count": 7,
+          "fact_evaluations": [
+            {
+              "fact_id": "imf-artiv-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-15-imf-artiv-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 0,
+          "selected_chars": 0,
+          "reduction_ratio": 0.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-16-imf-artiv-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1782,
+          "selected_chars": 1461,
+          "reduction_ratio": 0.1801,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-17-delhivery-prospectus-p2",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 7263,
+          "selected_chars": 7262,
+          "reduction_ratio": 0.0001,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-18-india-econ-survey-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 1316,
+          "selected_chars": 1044,
+          "reduction_ratio": 0.2067,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-19-rbi-ar-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 3503,
+          "selected_chars": 3502,
+          "reduction_ratio": 0.0003,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-20-delhivery-ar24-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1903,
+          "selected_chars": 876,
+          "reduction_ratio": 0.5397,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-21-delhivery-ar24-p10",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1027,
+          "selected_chars": 1026,
+          "reduction_ratio": 0.001,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-22-delhivery-q4-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 32,
+          "selected_chars": 31,
+          "reduction_ratio": 0.0312,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-23-delhivery-q4-p3",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 2070,
+          "selected_chars": 0,
+          "reduction_ratio": 1.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-24-delhivery-q4-p4",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 27,
+          "selected_chars": 26,
+          "reduction_ratio": 0.037,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-25-delhivery-q4-p7",
+          "case_type": "Case H \u2014 Cross-page context",
+          "original_chars": 565,
+          "selected_chars": 564,
+          "reduction_ratio": 0.0018,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p7-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p7-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expansion_radius": 5,
+      "region_recall_pct": 100.0,
+      "gold_facts_covered": "24/24",
+      "evidence_preservation_pct": 100.0,
+      "total_original_chars": 55800,
+      "total_selected_chars": 46401,
+      "average_character_reduction_pct": 16.84,
+      "median_character_reduction_pct": 2.07,
+      "average_windows_per_page": 1.48,
+      "max_windows_per_page": 6,
+      "context_completeness": {
+        "entity": {
+          "covered": 8,
+          "total": 8,
+          "percentage": 100.0
+        },
+        "metric": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "value": {
+          "covered": 24,
+          "total": 24,
+          "percentage": 100.0
+        },
+        "unit": {
+          "covered": 20,
+          "total": 20,
+          "percentage": 100.0
+        },
+        "time_period": {
+          "covered": 21,
+          "total": 21,
+          "percentage": 100.0
+        },
+        "scope": {
+          "covered": 1,
+          "total": 1,
+          "percentage": 100.0
+        }
+      },
+      "case_details": [
+        {
+          "case_id": "case-01-delhivery-ar24-p2",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 874,
+          "selected_chars": 873,
+          "reduction_ratio": 0.0011,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p2-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            },
+            {
+              "fact_id": "delhivery-ar24-p2-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-02-delhivery-ar24-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2440,
+          "selected_chars": 2439,
+          "reduction_ratio": 0.0004,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-03-delhivery-ar24-p6",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 1267,
+          "selected_chars": 1266,
+          "reduction_ratio": 0.0008,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-04-delhivery-ar24-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 4156,
+          "selected_chars": 3323,
+          "reduction_ratio": 0.2004,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-05-delhivery-ar24-p22",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 9690,
+          "selected_chars": 7017,
+          "reduction_ratio": 0.2759,
+          "window_count": 4,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-ar24-p22-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-06-delhivery-q4-p5",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 644,
+          "selected_chars": 643,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p5-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-07-delhivery-q4-p6",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 624,
+          "selected_chars": 623,
+          "reduction_ratio": 0.0016,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true,
+                "scope": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p6-fact3",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-08-delhivery-q4-p8",
+          "case_type": "Case B \u2014 Stat callout",
+          "original_chars": 1168,
+          "selected_chars": 912,
+          "reduction_ratio": 0.2192,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p8-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p8-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-09-delhivery-q4-p20",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 441,
+          "selected_chars": 440,
+          "reduction_ratio": 0.0023,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p20-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-10-india-econ-survey-p4",
+          "case_type": "Case A \u2014 Simple inline fact",
+          "original_chars": 2517,
+          "selected_chars": 1991,
+          "reduction_ratio": 0.209,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p4-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-11-india-econ-survey-p6",
+          "case_type": "Case E \u2014 Dense financial page",
+          "original_chars": 2375,
+          "selected_chars": 2357,
+          "reduction_ratio": 0.0076,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "india-econ-p6-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "india-econ-p6-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-12-rbi-ar-p10",
+          "case_type": "Case D \u2014 Header-dependent fact",
+          "original_chars": 3506,
+          "selected_chars": 3051,
+          "reduction_ratio": 0.1298,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p10-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "rbi-ar-p10-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-13-rbi-ar-p24",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 2757,
+          "selected_chars": 2700,
+          "reduction_ratio": 0.0207,
+          "window_count": 2,
+          "fact_evaluations": [
+            {
+              "fact_id": "rbi-ar-p24-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-14-imf-artiv-p5",
+          "case_type": "Case C \u2014 Table fact",
+          "original_chars": 3853,
+          "selected_chars": 2750,
+          "reduction_ratio": 0.2863,
+          "window_count": 6,
+          "fact_evaluations": [
+            {
+              "fact_id": "imf-artiv-p5-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "entity": true,
+                "metric": true,
+                "value": true,
+                "time_period": true
+              }
+            }
+          ]
+        },
+        {
+          "case_id": "case-15-imf-artiv-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 0,
+          "selected_chars": 0,
+          "reduction_ratio": 0.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-16-imf-artiv-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1782,
+          "selected_chars": 1548,
+          "reduction_ratio": 0.1313,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-17-delhivery-prospectus-p2",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 7263,
+          "selected_chars": 7262,
+          "reduction_ratio": 0.0001,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-18-india-econ-survey-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 1316,
+          "selected_chars": 1059,
+          "reduction_ratio": 0.1953,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-19-rbi-ar-p1",
+          "case_type": "Case G \u2014 Number-heavy noise",
+          "original_chars": 3503,
+          "selected_chars": 3502,
+          "reduction_ratio": 0.0003,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-20-delhivery-ar24-p1",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1903,
+          "selected_chars": 998,
+          "reduction_ratio": 0.4756,
+          "window_count": 2,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-21-delhivery-ar24-p10",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 1027,
+          "selected_chars": 1026,
+          "reduction_ratio": 0.001,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-22-delhivery-q4-p2",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 32,
+          "selected_chars": 31,
+          "reduction_ratio": 0.0312,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-23-delhivery-q4-p3",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 2070,
+          "selected_chars": 0,
+          "reduction_ratio": 1.0,
+          "window_count": 0,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-24-delhivery-q4-p4",
+          "case_type": "Case F \u2014 Narrative page",
+          "original_chars": 27,
+          "selected_chars": 26,
+          "reduction_ratio": 0.037,
+          "window_count": 1,
+          "fact_evaluations": []
+        },
+        {
+          "case_id": "case-25-delhivery-q4-p7",
+          "case_type": "Case H \u2014 Cross-page context",
+          "original_chars": 565,
+          "selected_chars": 564,
+          "reduction_ratio": 0.0018,
+          "window_count": 1,
+          "fact_evaluations": [
+            {
+              "fact_id": "delhivery-q4-p7-fact1",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            },
+            {
+              "fact_id": "delhivery-q4-p7-fact2",
+              "region_recalled": true,
+              "element_coverage": {
+                "metric": true,
+                "value": true,
+                "unit": true,
+                "time_period": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "gemini_feasibility_validation": {
+    "executed": true,
+    "comparisons": [
+      {
+        "case_id": "case-01-delhivery-ar24-p2",
+        "page": 2,
+        "original_chars": 874,
+        "compressed_chars": 852,
+        "char_reduction_pct": 2.5,
+        "baseline_facts_count": 11,
+        "experimental_facts_count": 0,
+        "baseline_sample_facts": [
+          {
+            "metric": "Express parcel shipments delivered since inception",
+            "value_raw": ">2.8Bn",
+            "time_period": "As of March 31, 2024",
+            "entity": "Delhivery"
+          },
+          {
+            "metric": "Pin codes covered",
+            "value_raw": "18,793",
+            "time_period": "As of March 31, 2024",
+            "entity": "Delhivery"
+          },
+          {
+            "metric": "Last-mile delivery centres",
+            "value_raw": "4,445",
+            "time_period": "As of March 31, 2024",
+            "entity": "Delhivery"
+          }
+        ],
+        "experimental_sample_facts": [],
+        "status": "SUCCESS"
+      },
+      {
+        "case_id": "case-02-delhivery-ar24-p4",
+        "page": 4,
+        "original_chars": 2440,
+        "compressed_chars": 2067,
+        "char_reduction_pct": 15.3,
+        "baseline_facts_count": 13,
+        "experimental_facts_count": 18,
+        "baseline_sample_facts": [
+          {
+            "metric": "First quarterly PAT profitability",
+            "value_raw": "\u20b9117 million",
+            "time_period": "Q3 FY24",
+            "entity": "Delhivery Limited"
+          },
+          {
+            "metric": "First quarterly PAT profitability as % of total income",
+            "value_raw": "0.5%",
+            "time_period": "Q3 FY24",
+            "entity": "Delhivery Limited"
+          },
+          {
+            "metric": "Part-truckload tonnage growth",
+            "value_raw": "30%",
+            "time_period": "FY24",
+            "entity": "Delhivery Limited"
+          }
+        ],
+        "experimental_sample_facts": [
+          {
+            "metric": "Express parcels shipped",
+            "value_raw": "740Mn",
+            "time_period": "FY24",
+            "entity": "Delhivery"
+          },
+          {
+            "metric": "EBITDA",
+            "value_raw": "\u20b91,266Mn",
+            "time_period": "FY24",
+            "entity": "Delhivery"
+          },
+          {
+            "metric": "PTL freight delivered",
+            "value_raw": "1,429K tonnes",
+            "time_period": "FY24",
+            "entity": "Delhivery"
+          }
+        ],
+        "status": "SUCCESS"
+      },
+      {
+        "case_id": "case-06-delhivery-q4-p5",
+        "page": 5,
+        "original_chars": 644,
+        "compressed_chars": 643,
+        "char_reduction_pct": 0.2,
+        "baseline_facts_count": 11,
+        "experimental_facts_count": 11,
+        "baseline_sample_facts": [
+          {
+            "metric": "YoY growth",
+            "value_raw": "30%+",
+            "time_period": "FY24",
+            "entity": "Delhivery (PTL segment)"
+          },
+          {
+            "metric": "Service EBITDA profitability growth",
+            "value_raw": "Doubled",
+            "time_period": "FY24",
+            "entity": "Delhivery (SCS segment)"
+          },
+          {
+            "metric": "YoY revenue growth",
+            "value_raw": "40%",
+            "time_period": "FY24",
+            "entity": "Delhivery (TL segment)"
+          }
+        ],
+        "experimental_sample_facts": [
+          {
+            "metric": "YoY growth",
+            "value_raw": "30%+",
+            "time_period": "FY24",
+            "entity": "Delhivery (PTL)"
+          },
+          {
+            "metric": "Service EBITDA profitability growth over FY23",
+            "value_raw": "Doubled",
+            "time_period": "FY24",
+            "entity": "Delhivery (SCS)"
+          },
+          {
+            "metric": "YoY revenue growth",
+            "value_raw": "40%",
+            "time_period": "FY24",
+            "entity": "Delhivery (TL)"
+          }
+        ],
+        "status": "SUCCESS"
+      }
+    ]
+  },
+  "unseen_pdf_generalization": {
+    "document": "01-delhivery-prospectus-2022-excerpt.pdf (Pages 11-20)",
+    "total_unseen_pages": 10,
+    "total_original_chars": 27459,
+    "total_selected_chars": 20519,
+    "character_reduction_pct": 25.27,
+    "average_windows_per_page": 5.2,
+    "page_breakdown": [
+      {
+        "page_number": 11,
+        "original_chars": 3123,
+        "selected_chars": 2354,
+        "windows": 4,
+        "anchors": [
+          "30",
+          "148.38",
+          "3.28"
+        ]
+      },
+      {
+        "page_number": 12,
+        "original_chars": 3066,
+        "selected_chars": 2613,
+        "windows": 2,
+        "anchors": [
+          "31",
+          "8,, 2020, August 8, 2020",
+          "785,260"
+        ]
+      },
+      {
+        "page_number": 13,
+        "original_chars": 4555,
+        "selected_chars": 2229,
+        "windows": 6,
+        "anchors": [
+          "32",
+          "3, rs, rs",
+          "10%, %"
+        ]
+      },
+      {
+        "page_number": 14,
+        "original_chars": 1653,
+        "selected_chars": 911,
+        "windows": 3,
+        "anchors": [
+          "33",
+          "563,349",
+          "56,334,990"
+        ]
+      },
+      {
+        "page_number": 15,
+        "original_chars": 3045,
+        "selected_chars": 2685,
+        "windows": 3,
+        "anchors": [
+          "90",
+          "31,, 2021, 2021",
+          "31,, 2020, December 31, 2020"
+        ]
+      },
+      {
+        "page_number": 16,
+        "original_chars": 2484,
+        "selected_chars": 2088,
+        "windows": 5,
+        "anchors": [
+          "91",
+          "31,, 2021, 2021",
+          "31,, 2020, December 31, 2020"
+        ]
+      },
+      {
+        "page_number": 17,
+        "original_chars": 2517,
+        "selected_chars": 1924,
+        "windows": 10,
+        "anchors": [
+          "92",
+          "31,",
+          "2021, 2021"
+        ]
+      },
+      {
+        "page_number": 18,
+        "original_chars": 1591,
+        "selected_chars": 980,
+        "windows": 8,
+        "anchors": [
+          "93",
+          "31,",
+          "2021, 2021"
+        ]
+      },
+      {
+        "page_number": 19,
+        "original_chars": 2546,
+        "selected_chars": 2252,
+        "windows": 5,
+        "anchors": [
+          "94",
+          "31,, 2021, 2021",
+          "31,, 2020, 2020"
+        ]
+      },
+      {
+        "page_number": 20,
+        "original_chars": 2879,
+        "selected_chars": 2483,
+        "windows": 6,
+        "anchors": [
+          "95",
+          "31,, 2021, 2021",
+          "31,, 2020, 2020"
+        ]
+      }
+    ]
+  }
+}

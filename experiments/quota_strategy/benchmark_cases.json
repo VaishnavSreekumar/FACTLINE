@@ -1,0 +1,110 @@
+{
+  "benchmark_version": "1.0.0",
+  "description": "FACTLINE Phase 13 Quota-Aware Multi-Page Batching Benchmark Cases.",
+  "synthetic_adversarial_cases": [
+    {
+      "id": "adv-01-cross-page-contamination",
+      "description": "Adversarial test with distinct entities and metrics across 2 batched pages",
+      "pages": [
+        {
+          "page_number": 1,
+          "text": "Acme Logistics Q4 FY24 Total Revenue reached ₹5,400 Cr with 12.5% EBITDA margin.",
+          "ground_truth_facts": [
+            {
+              "page_number": 1,
+              "entity": "Acme Logistics",
+              "metric": "Total Revenue",
+              "value_raw": "₹5,400 Cr",
+              "time_period": "Q4 FY24"
+            },
+            {
+              "page_number": 1,
+              "entity": "Acme Logistics",
+              "metric": "EBITDA margin",
+              "value_raw": "12.5%",
+              "time_period": "Q4 FY24"
+            }
+          ]
+        },
+        {
+          "page_number": 2,
+          "text": "Beta Freight Services active headcount stood at 14,200 employees across 850 hubs.",
+          "ground_truth_facts": [
+            {
+              "page_number": 2,
+              "entity": "Beta Freight Services",
+              "metric": "active headcount",
+              "value_raw": "14,200",
+              "time_period": "Unspecified"
+            },
+            {
+              "page_number": 2,
+              "entity": "Beta Freight Services",
+              "metric": "hubs",
+              "value_raw": "850",
+              "time_period": "Unspecified"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adv-02-duplicate-numbers",
+      "description": "Adversarial test where exact same number (500) and metric appear on adjacent pages with different periods",
+      "pages": [
+        {
+          "page_number": 10,
+          "text": "Delta Corp FY23 capital expenditure was ₹500 Cr.",
+          "ground_truth_facts": [
+            {
+              "page_number": 10,
+              "entity": "Delta Corp",
+              "metric": "capital expenditure",
+              "value_raw": "₹500 Cr",
+              "time_period": "FY23"
+            }
+          ]
+        },
+        {
+          "page_number": 11,
+          "text": "Delta Corp FY24 capital expenditure was ₹500 Cr.",
+          "ground_truth_facts": [
+            {
+              "page_number": 11,
+              "entity": "Delta Corp",
+              "metric": "capital expenditure",
+              "value_raw": "₹500 Cr",
+              "time_period": "FY24"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "real_corpus_batch_cases": [
+    {
+      "id": "real-batch-delhivery-q4-p5-p6-p7-p8",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "pages": [5, 6, 7, 8],
+      "description": "Delhivery Q4 Earnings Presentation 4-page sequence (FY24 highlights, full-year metrics, Q4 metrics, operating KPIs)",
+      "ground_truth_count": 8
+    },
+    {
+      "id": "real-batch-delhivery-ar24-p2-p4-p6",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "pages": [2, 4, 6],
+      "description": "Delhivery Annual Report FY24 operational callouts, growth narrative, and 5-year financials table",
+      "ground_truth_count": 5
+    },
+    {
+      "id": "real-batch-macro-econ-p4-p6",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "pages": [4, 6],
+      "description": "India Economic Survey chapter 1 GDP growth (6.4%) and global comparison charts",
+      "ground_truth_count": 3
+    }
+  ]
+}

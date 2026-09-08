@@ -1,0 +1,424 @@
+{
+  "benchmark_metadata": {
+    "timestamp": "2026-09-08T20:00:15Z",
+    "total_pages": 25,
+    "total_batches": 5,
+    "concurrency": 1,
+    "batch_size": 5,
+    "fingerprints_match": true
+  },
+  "fingerprints": [
+    {
+      "batch_index": 1,
+      "batch_id": "batch_1_prose_macro",
+      "gemini_input_hash": "b3d47489c09fef851503e0f8d2c7d76da1cca1d72e2c9ec3753fbc247174357e",
+      "groq_input_hash": "b3d47489c09fef851503e0f8d2c7d76da1cca1d72e2c9ec3753fbc247174357e",
+      "hashes_match": true
+    },
+    {
+      "batch_index": 2,
+      "batch_id": "batch_2_dense_numerical",
+      "gemini_input_hash": "63838f949f60a0bef77d30e7c8d17dfc9732c01ad0cacc77daa921a993378aee",
+      "groq_input_hash": "63838f949f60a0bef77d30e7c8d17dfc9732c01ad0cacc77daa921a993378aee",
+      "hashes_match": true
+    },
+    {
+      "batch_index": 3,
+      "batch_id": "batch_3_tables_negative",
+      "gemini_input_hash": "d44d571db55736b192999b49e34043ff44c99de2cecc8648dfa4ae7b547cfd3c",
+      "groq_input_hash": "d44d571db55736b192999b49e34043ff44c99de2cecc8648dfa4ae7b547cfd3c",
+      "hashes_match": true
+    },
+    {
+      "batch_index": 4,
+      "batch_id": "batch_4_central_bank_dates",
+      "gemini_input_hash": "dd7978fb66adc1db75721ad3ecc7342b63e2a8164021bf3a9878765cca7b8725",
+      "groq_input_hash": "dd7978fb66adc1db75721ad3ecc7342b63e2a8164021bf3a9878765cca7b8725",
+      "hashes_match": true
+    },
+    {
+      "batch_index": 5,
+      "batch_id": "batch_5_structural_low_fact",
+      "gemini_input_hash": "5c433ab9aeb2c17188a23c6634f8432fdad0b56c3429d7ce1ebda79719bd4d37",
+      "groq_input_hash": "5c433ab9aeb2c17188a23c6634f8432fdad0b56c3429d7ce1ebda79719bd4d37",
+      "hashes_match": true
+    }
+  ],
+  "gemini_summary": {
+    "provider_name": "Google Gemini",
+    "model_name": "gemini-3.6-flash",
+    "total_batches": 5,
+    "total_pages_evaluated": 25,
+    "wall_clock_time_s": 153.16571140289307,
+    "raw_facts_returned": {
+      "classification": "MEASURED",
+      "value": 48,
+      "unit": "facts",
+      "note": null
+    },
+    "verified_facts": {
+      "classification": "MEASURED",
+      "value": 48,
+      "unit": "facts",
+      "note": null
+    },
+    "verification_rate_pct": {
+      "classification": "MEASURED",
+      "value": 100.0,
+      "unit": "%",
+      "note": null
+    },
+    "evidence_grounding_rate_pct": {
+      "classification": "MEASURED",
+      "value": 100.0,
+      "unit": "%",
+      "note": null
+    },
+    "total_requests": {
+      "classification": "MEASURED",
+      "value": 5,
+      "unit": "requests",
+      "note": null
+    },
+    "successful_requests": {
+      "classification": "MEASURED",
+      "value": 5,
+      "unit": "requests",
+      "note": null
+    },
+    "failed_requests": {
+      "classification": "MEASURED",
+      "value": 0,
+      "unit": "requests",
+      "note": null
+    },
+    "http_failures_by_status": {
+      "classification": "MEASURED",
+      "value": {},
+      "unit": "",
+      "note": null
+    },
+    "structured_output_failures": {
+      "classification": "MEASURED",
+      "value": 0,
+      "unit": "",
+      "note": null
+    },
+    "retries_attempted": {
+      "classification": "MEASURED",
+      "value": 0,
+      "unit": "retries",
+      "note": null
+    },
+    "mean_latency_ms": {
+      "classification": "MEASURED",
+      "value": 30620.8,
+      "unit": "ms",
+      "note": null
+    },
+    "median_latency_ms": {
+      "classification": "MEASURED",
+      "value": 26219.9,
+      "unit": "ms",
+      "note": null
+    },
+    "p95_latency_ms_directional": {
+      "classification": "MEASURED",
+      "value": 57887.3,
+      "unit": "ms",
+      "note": "Directional only (N=5 requests)"
+    },
+    "total_provider_latency_s": {
+      "classification": "MEASURED",
+      "value": 153.1,
+      "unit": "s",
+      "note": null
+    },
+    "estimated_tokens_total": {
+      "classification": "MEASURED",
+      "value": "N/A",
+      "unit": "tokens",
+      "note": null
+    },
+    "rate_limit_summary": {
+      "classification": "MEASURED",
+      "value": "No rate limit headers returned",
+      "unit": "",
+      "note": null
+    },
+    "duplicate_facts_count": {
+      "classification": "DERIVED",
+      "value": 0,
+      "unit": "facts",
+      "note": null
+    },
+    "duplicate_fact_rate_pct": {
+      "classification": "DERIVED",
+      "value": 0.0,
+      "unit": "%",
+      "note": null
+    },
+    "cross_page_contamination_count": {
+      "classification": "DERIVED",
+      "value": 0,
+      "unit": "facts",
+      "note": null
+    },
+    "cross_page_contamination_rate_pct": {
+      "classification": "DERIVED",
+      "value": 0.0,
+      "unit": "%",
+      "note": null
+    },
+    "page_attribution_consistency_pct": {
+      "classification": "DERIVED",
+      "value": 100.0,
+      "unit": "%",
+      "note": null
+    },
+    "precision": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "recall": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "f1_score": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "numeric_extraction_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "unit_scale_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "entity_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "metric_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "time_period_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "epistemic_status_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    }
+  },
+  "groq_summary": {
+    "provider_name": "Groq",
+    "model_name": "openai/gpt-oss-120b",
+    "total_batches": 5,
+    "total_pages_evaluated": 25,
+    "wall_clock_time_s": 25.515601634979248,
+    "raw_facts_returned": {
+      "classification": "MEASURED",
+      "value": 2,
+      "unit": "facts",
+      "note": null
+    },
+    "verified_facts": {
+      "classification": "MEASURED",
+      "value": 1,
+      "unit": "facts",
+      "note": null
+    },
+    "verification_rate_pct": {
+      "classification": "MEASURED",
+      "value": 50.0,
+      "unit": "%",
+      "note": null
+    },
+    "evidence_grounding_rate_pct": {
+      "classification": "MEASURED",
+      "value": 50.0,
+      "unit": "%",
+      "note": null
+    },
+    "total_requests": {
+      "classification": "MEASURED",
+      "value": 5,
+      "unit": "requests",
+      "note": null
+    },
+    "successful_requests": {
+      "classification": "MEASURED",
+      "value": 1,
+      "unit": "requests",
+      "note": null
+    },
+    "failed_requests": {
+      "classification": "MEASURED",
+      "value": 4,
+      "unit": "requests",
+      "note": null
+    },
+    "http_failures_by_status": {
+      "classification": "MEASURED",
+      "value": {
+        "400_REQUEST_SCHEMA": 2,
+        "429_QUOTA_RATE_LIMIT": 2
+      },
+      "unit": "",
+      "note": null
+    },
+    "structured_output_failures": {
+      "classification": "MEASURED",
+      "value": 0,
+      "unit": "",
+      "note": null
+    },
+    "retries_attempted": {
+      "classification": "MEASURED",
+      "value": 0,
+      "unit": "retries",
+      "note": null
+    },
+    "mean_latency_ms": {
+      "classification": "MEASURED",
+      "value": 5089.6,
+      "unit": "ms",
+      "note": null
+    },
+    "median_latency_ms": {
+      "classification": "MEASURED",
+      "value": 7134.1,
+      "unit": "ms",
+      "note": null
+    },
+    "p95_latency_ms_directional": {
+      "classification": "MEASURED",
+      "value": 10027.2,
+      "unit": "ms",
+      "note": "Directional only (N=5 requests)"
+    },
+    "total_provider_latency_s": {
+      "classification": "MEASURED",
+      "value": 25.45,
+      "unit": "s",
+      "note": null
+    },
+    "estimated_tokens_total": {
+      "classification": "MEASURED",
+      "value": 5178,
+      "unit": "tokens",
+      "note": null
+    },
+    "rate_limit_summary": {
+      "classification": "MEASURED",
+      "value": "Remaining req: 997, tokens: 356",
+      "unit": "",
+      "note": null
+    },
+    "duplicate_facts_count": {
+      "classification": "DERIVED",
+      "value": 0,
+      "unit": "facts",
+      "note": null
+    },
+    "duplicate_fact_rate_pct": {
+      "classification": "DERIVED",
+      "value": 0.0,
+      "unit": "%",
+      "note": null
+    },
+    "cross_page_contamination_count": {
+      "classification": "DERIVED",
+      "value": 0,
+      "unit": "facts",
+      "note": null
+    },
+    "cross_page_contamination_rate_pct": {
+      "classification": "DERIVED",
+      "value": 0.0,
+      "unit": "%",
+      "note": null
+    },
+    "page_attribution_consistency_pct": {
+      "classification": "DERIVED",
+      "value": 100.0,
+      "unit": "%",
+      "note": null
+    },
+    "precision": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "recall": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "f1_score": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "No exhaustive ground truth annotation for 25 benchmark pages"
+    },
+    "numeric_extraction_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "unit_scale_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "entity_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "metric_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "time_period_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    },
+    "epistemic_status_accuracy": {
+      "classification": "N/A \u2014 NO GROUND TRUTH",
+      "value": "N/A",
+      "unit": "",
+      "note": "Requires per-fact gold label annotations"
+    }
+  }
+}

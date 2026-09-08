@@ -1,0 +1,229 @@
+{
+  "benchmark_summary": {
+    "default_threshold": 0.35,
+    "page_recall_pct": 100.0,
+    "page_precision_pct": 66.7,
+    "gemini_reduction_pct": 12.5,
+    "total_benchmark_pages": 24,
+    "missed_fact_bearing_pages": [],
+    "false_positive_pages": [
+      "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+      "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+      "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+      "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+      "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+      "02-delhivery-annual-report-fy24-excerpt.pdf p.10",
+      "03-delhivery-q4-fy24-earnings-presentation.pdf p.3"
+    ]
+  },
+  "threshold_tradeoffs": [
+    {
+      "threshold": 0.2,
+      "tp": 14,
+      "fp": 9,
+      "fn": 0,
+      "tn": 1,
+      "recall_pct": 100.0,
+      "precision_pct": 60.9,
+      "selected_pages": 23,
+      "total_pages": 24,
+      "gemini_reduction_pct": 4.2,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.2",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.3",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.4"
+      ]
+    },
+    {
+      "threshold": 0.3,
+      "tp": 14,
+      "fp": 7,
+      "fn": 0,
+      "tn": 3,
+      "recall_pct": 100.0,
+      "precision_pct": 66.7,
+      "selected_pages": 21,
+      "total_pages": 24,
+      "gemini_reduction_pct": 12.5,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.3"
+      ]
+    },
+    {
+      "threshold": 0.35,
+      "tp": 14,
+      "fp": 7,
+      "fn": 0,
+      "tn": 3,
+      "recall_pct": 100.0,
+      "precision_pct": 66.7,
+      "selected_pages": 21,
+      "total_pages": 24,
+      "gemini_reduction_pct": 12.5,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.3"
+      ]
+    },
+    {
+      "threshold": 0.4,
+      "tp": 14,
+      "fp": 7,
+      "fn": 0,
+      "tn": 3,
+      "recall_pct": 100.0,
+      "precision_pct": 66.7,
+      "selected_pages": 21,
+      "total_pages": 24,
+      "gemini_reduction_pct": 12.5,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10",
+        "03-delhivery-q4-fy24-earnings-presentation.pdf p.3"
+      ]
+    },
+    {
+      "threshold": 0.5,
+      "tp": 14,
+      "fp": 6,
+      "fn": 0,
+      "tn": 4,
+      "recall_pct": 100.0,
+      "precision_pct": 70.0,
+      "selected_pages": 20,
+      "total_pages": 24,
+      "gemini_reduction_pct": 16.7,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10"
+      ]
+    },
+    {
+      "threshold": 0.6,
+      "tp": 14,
+      "fp": 6,
+      "fn": 0,
+      "tn": 4,
+      "recall_pct": 100.0,
+      "precision_pct": 70.0,
+      "selected_pages": 20,
+      "total_pages": 24,
+      "gemini_reduction_pct": 16.7,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-delhivery-prospectus-2022-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-rbi-annual-report-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10"
+      ]
+    },
+    {
+      "threshold": 0.7,
+      "tp": 14,
+      "fp": 4,
+      "fn": 0,
+      "tn": 6,
+      "recall_pct": 100.0,
+      "precision_pct": 77.8,
+      "selected_pages": 18,
+      "total_pages": 24,
+      "gemini_reduction_pct": 25.0,
+      "missed_pages": [],
+      "false_positive_pages": [
+        "03-imf-india-2025-article-iv-excerpt.pdf p.2",
+        "01-india-economic-survey-2024-25-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.1",
+        "02-delhivery-annual-report-fy24-excerpt.pdf p.10"
+      ]
+    }
+  ],
+  "starter_corpus_evaluation": {
+    "total_documents": 6,
+    "total_pages": 511,
+    "total_text_pages": 510,
+    "total_selected_pages": 499,
+    "aggregate_reduction_pct": 2.2,
+    "documents": [
+      {
+        "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+        "total_pages": 100,
+        "text_pages": 100,
+        "selected_pages": 99,
+        "reduction_pct": 1.0
+      },
+      {
+        "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "total_pages": 100,
+        "text_pages": 100,
+        "selected_pages": 100,
+        "reduction_pct": 0.0
+      },
+      {
+        "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "total_pages": 27,
+        "text_pages": 27,
+        "selected_pages": 23,
+        "reduction_pct": 14.8
+      },
+      {
+        "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "total_pages": 89,
+        "text_pages": 89,
+        "selected_pages": 88,
+        "reduction_pct": 1.1
+      },
+      {
+        "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "total_pages": 100,
+        "text_pages": 100,
+        "selected_pages": 100,
+        "reduction_pct": 0.0
+      },
+      {
+        "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+        "total_pages": 95,
+        "text_pages": 94,
+        "selected_pages": 89,
+        "reduction_pct": 5.3
+      }
+    ]
+  },
+  "unseen_pdf_evaluation": {
+    "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+    "evaluated_pages": 11,
+    "selected_pages": 11,
+    "selection_rate_pct": 100.0
+  }
+}

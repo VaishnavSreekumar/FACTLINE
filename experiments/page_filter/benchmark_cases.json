@@ -1,0 +1,198 @@
+{
+  "benchmark_version": "1.0.0",
+  "description": "FACTLINE Phase 11 Local Page Relevance Filter Benchmark (24 real PDF pages from starter datasets).",
+  "cases": [
+    {
+      "id": "case-01-delhivery-ar24-p2",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery operational statistics callouts (>2.8Bn, >4.8Mn tonnes, >33,200)"
+    },
+    {
+      "id": "case-02-delhivery-ar24-p4",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 4,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery annual growth highlights (₹81,415Mn revenue, 1.6% margin)"
+    },
+    {
+      "id": "case-03-delhivery-ar24-p6",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 6,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery 5-year multi-column financial and operational metrics table"
+    },
+    {
+      "id": "case-04-delhivery-ar24-p8",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 8,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery facility processing capacity metrics and fleet statistics"
+    },
+    {
+      "id": "case-05-delhivery-ar24-p22",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 22,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery audited standalone & consolidated financial statements table"
+    },
+    {
+      "id": "case-06-delhivery-q4-p5",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 5,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery FY24 full year presentation highlights (₹8,142 Cr)"
+    },
+    {
+      "id": "case-07-delhivery-q4-p6",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 6,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery full year revenue presentation breakdown"
+    },
+    {
+      "id": "case-08-delhivery-q4-p8",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 8,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery key operating metrics summary (33,278 customers, 740M parcels)"
+    },
+    {
+      "id": "case-09-delhivery-q4-p20",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 20,
+      "ground_truth": "FACT_BEARING",
+      "description": "Delhivery liquidity position and treasury balances table"
+    },
+    {
+      "id": "case-10-india-econ-survey-p4",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 4,
+      "ground_truth": "FACT_BEARING",
+      "description": "India Economic Survey chapter 1 GDP growth rate (6.4%)"
+    },
+    {
+      "id": "case-11-india-econ-survey-p6",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 6,
+      "ground_truth": "FACT_BEARING",
+      "description": "India Economic Survey macroeconomic indicator trends and inflation rates"
+    },
+    {
+      "id": "case-12-rbi-ar-p10",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 10,
+      "ground_truth": "FACT_BEARING",
+      "description": "RBI Annual Report Real GDP Growth assessment (6.5% SAE)"
+    },
+    {
+      "id": "case-13-rbi-ar-p24",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 24,
+      "ground_truth": "FACT_BEARING",
+      "description": "RBI Economic Review statistical output table"
+    },
+    {
+      "id": "case-14-imf-artiv-p5",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 5,
+      "ground_truth": "FACT_BEARING",
+      "description": "IMF Table 1 Selected Social and Economic Indicators"
+    },
+    {
+      "id": "case-15-imf-artiv-p1",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 1,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "IMF Article IV blank cover title page"
+    },
+    {
+      "id": "case-16-imf-artiv-p2",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 2,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "IMF copyright and boilerplate publishing information"
+    },
+    {
+      "id": "case-17-delhivery-prospectus-p2",
+      "pdf_path": "sample-data/starter-datasets/delhivery/01-delhivery-prospectus-2022-excerpt.pdf",
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "page": 2,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Delhivery Prospectus Table of Contents"
+    },
+    {
+      "id": "case-18-india-econ-survey-p1",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 1,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Economic Survey Table of Contents index"
+    },
+    {
+      "id": "case-19-rbi-ar-p1",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 1,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "RBI Annual Report Chapter overview / Roman numeral contents"
+    },
+    {
+      "id": "case-20-delhivery-ar24-p1",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 1,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Delhivery Corporate Overview cover divider"
+    },
+    {
+      "id": "case-21-delhivery-ar24-p10",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 10,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "CSR Narrative prose on Akshay Patra meal distribution"
+    },
+    {
+      "id": "case-22-delhivery-q4-p2",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 2,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Delhivery Q4 Earnings Presentation Title Slide"
+    },
+    {
+      "id": "case-23-delhivery-q4-p3",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 3,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Delhivery Safe Harbour and Disclaimer statement"
+    },
+    {
+      "id": "case-24-delhivery-q4-p4",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 4,
+      "ground_truth": "NOT_FACT_BEARING",
+      "description": "Delhivery Presentation Section Divider Slide"
+    }
+  ]
+}

@@ -1,0 +1,883 @@
+{
+  "batch_size_sweep": [
+    {
+      "batch_size": 1,
+      "total_pages": 6,
+      "requests_required": 6,
+      "request_reduction_pct": 0.0,
+      "batches_planned": [
+        [
+          2
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          6
+        ],
+        [
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "raw_payload_chars": 6315,
+      "compressed_payload_chars": 5523,
+      "char_reduction_pct": 12.54,
+      "fact_recall_pct": 100.0,
+      "fact_precision_pct": 100.0,
+      "evidence_grounding_pct": 100.0,
+      "page_attribution_pct": 100.0,
+      "entity_accuracy_pct": 100.0,
+      "metric_accuracy_pct": 100.0,
+      "time_accuracy_pct": 100.0,
+      "numeric_accuracy_pct": 100.0
+    },
+    {
+      "batch_size": 2,
+      "total_pages": 6,
+      "requests_required": 3,
+      "request_reduction_pct": 50.0,
+      "batches_planned": [
+        [
+          2,
+          4
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ],
+      "raw_payload_chars": 6315,
+      "compressed_payload_chars": 5523,
+      "char_reduction_pct": 12.54,
+      "fact_recall_pct": 100.0,
+      "fact_precision_pct": 100.0,
+      "evidence_grounding_pct": 100.0,
+      "page_attribution_pct": 100.0,
+      "entity_accuracy_pct": 100.0,
+      "metric_accuracy_pct": 100.0,
+      "time_accuracy_pct": 100.0,
+      "numeric_accuracy_pct": 100.0
+    },
+    {
+      "batch_size": 3,
+      "total_pages": 6,
+      "requests_required": 2,
+      "request_reduction_pct": 66.67,
+      "batches_planned": [
+        [
+          2,
+          4,
+          5
+        ],
+        [
+          6,
+          7,
+          8
+        ]
+      ],
+      "raw_payload_chars": 6315,
+      "compressed_payload_chars": 5523,
+      "char_reduction_pct": 12.54,
+      "fact_recall_pct": 100.0,
+      "fact_precision_pct": 100.0,
+      "evidence_grounding_pct": 100.0,
+      "page_attribution_pct": 100.0,
+      "entity_accuracy_pct": 100.0,
+      "metric_accuracy_pct": 100.0,
+      "time_accuracy_pct": 100.0,
+      "numeric_accuracy_pct": 100.0
+    },
+    {
+      "batch_size": 5,
+      "total_pages": 6,
+      "requests_required": 2,
+      "request_reduction_pct": 66.67,
+      "batches_planned": [
+        [
+          2,
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "raw_payload_chars": 6315,
+      "compressed_payload_chars": 5523,
+      "char_reduction_pct": 12.54,
+      "fact_recall_pct": 100.0,
+      "fact_precision_pct": 100.0,
+      "evidence_grounding_pct": 100.0,
+      "page_attribution_pct": 100.0,
+      "entity_accuracy_pct": 100.0,
+      "metric_accuracy_pct": 100.0,
+      "time_accuracy_pct": 100.0,
+      "numeric_accuracy_pct": 100.0
+    }
+  ],
+  "adversarial_contamination_benchmark": {
+    "total_adversarial_facts": 6,
+    "correct_page_attribution_pct": 100.0,
+    "cross_page_contamination_errors": 0,
+    "cases": [
+      {
+        "case_id": "adv-01-cross-page-contamination",
+        "description": "Adversarial test with distinct entities and metrics across 2 batched pages",
+        "facts_extracted": 4,
+        "rejected_grounding": 0,
+        "status": "PASSED"
+      },
+      {
+        "case_id": "adv-02-duplicate-numbers",
+        "description": "Adversarial test where exact same number (500) and metric appear on adjacent pages with different periods",
+        "facts_extracted": 2,
+        "rejected_grounding": 0,
+        "status": "PASSED"
+      }
+    ]
+  },
+  "starter_corpus_simulation": {
+    "total_corpus_documents": 5,
+    "total_raw_pages": 411,
+    "total_eligible_fact_bearing_pages": 401,
+    "overall_page_filtering_reduction_pct": 2.4,
+    "document_breakdown": [
+      {
+        "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+        "total_pages": 100,
+        "eligible_fact_bearing_pages": 100,
+        "filtering_page_reduction_pct": 0.0,
+        "eligible_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ]
+      },
+      {
+        "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+        "total_pages": 27,
+        "eligible_fact_bearing_pages": 23,
+        "filtering_page_reduction_pct": 14.8,
+        "eligible_pages": [
+          1,
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26
+        ]
+      },
+      {
+        "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+        "total_pages": 89,
+        "eligible_fact_bearing_pages": 89,
+        "filtering_page_reduction_pct": 0.0,
+        "eligible_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89
+        ]
+      },
+      {
+        "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+        "total_pages": 100,
+        "eligible_fact_bearing_pages": 100,
+        "filtering_page_reduction_pct": 0.0,
+        "eligible_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ]
+      },
+      {
+        "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+        "total_pages": 95,
+        "eligible_fact_bearing_pages": 89,
+        "filtering_page_reduction_pct": 6.3,
+        "eligible_pages": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          64,
+          67,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ]
+      }
+    ],
+    "budget_simulations": [
+      {
+        "budget_requests": 10,
+        "batch_strategies": {
+          "batch_size_1": {
+            "requests_needed": 401,
+            "requests_budgeted": 10,
+            "processable_pages": 10,
+            "deferred_pages": 391,
+            "coverage_pct": 2.5,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_2": {
+            "requests_needed": 201,
+            "requests_budgeted": 10,
+            "processable_pages": 20,
+            "deferred_pages": 381,
+            "coverage_pct": 5.0,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_3": {
+            "requests_needed": 134,
+            "requests_budgeted": 10,
+            "processable_pages": 30,
+            "deferred_pages": 371,
+            "coverage_pct": 7.5,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_5": {
+            "requests_needed": 81,
+            "requests_budgeted": 10,
+            "processable_pages": 50,
+            "deferred_pages": 351,
+            "coverage_pct": 12.5,
+            "status": "PARTIAL_QUOTA"
+          }
+        }
+      },
+      {
+        "budget_requests": 20,
+        "batch_strategies": {
+          "batch_size_1": {
+            "requests_needed": 401,
+            "requests_budgeted": 20,
+            "processable_pages": 20,
+            "deferred_pages": 381,
+            "coverage_pct": 5.0,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_2": {
+            "requests_needed": 201,
+            "requests_budgeted": 20,
+            "processable_pages": 40,
+            "deferred_pages": 361,
+            "coverage_pct": 10.0,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_3": {
+            "requests_needed": 134,
+            "requests_budgeted": 20,
+            "processable_pages": 60,
+            "deferred_pages": 341,
+            "coverage_pct": 15.0,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_5": {
+            "requests_needed": 81,
+            "requests_budgeted": 20,
+            "processable_pages": 100,
+            "deferred_pages": 301,
+            "coverage_pct": 24.9,
+            "status": "PARTIAL_QUOTA"
+          }
+        }
+      },
+      {
+        "budget_requests": 50,
+        "batch_strategies": {
+          "batch_size_1": {
+            "requests_needed": 401,
+            "requests_budgeted": 50,
+            "processable_pages": 50,
+            "deferred_pages": 351,
+            "coverage_pct": 12.5,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_2": {
+            "requests_needed": 201,
+            "requests_budgeted": 50,
+            "processable_pages": 100,
+            "deferred_pages": 301,
+            "coverage_pct": 24.9,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_3": {
+            "requests_needed": 134,
+            "requests_budgeted": 50,
+            "processable_pages": 150,
+            "deferred_pages": 251,
+            "coverage_pct": 37.4,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_5": {
+            "requests_needed": 81,
+            "requests_budgeted": 50,
+            "processable_pages": 250,
+            "deferred_pages": 151,
+            "coverage_pct": 62.3,
+            "status": "PARTIAL_QUOTA"
+          }
+        }
+      },
+      {
+        "budget_requests": 100,
+        "batch_strategies": {
+          "batch_size_1": {
+            "requests_needed": 401,
+            "requests_budgeted": 100,
+            "processable_pages": 100,
+            "deferred_pages": 301,
+            "coverage_pct": 24.9,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_2": {
+            "requests_needed": 201,
+            "requests_budgeted": 100,
+            "processable_pages": 200,
+            "deferred_pages": 201,
+            "coverage_pct": 49.9,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_3": {
+            "requests_needed": 134,
+            "requests_budgeted": 100,
+            "processable_pages": 300,
+            "deferred_pages": 101,
+            "coverage_pct": 74.8,
+            "status": "PARTIAL_QUOTA"
+          },
+          "batch_size_5": {
+            "requests_needed": 81,
+            "requests_budgeted": 100,
+            "processable_pages": 401,
+            "deferred_pages": 0,
+            "coverage_pct": 100.0,
+            "status": "COMPLETE"
+          }
+        }
+      }
+    ]
+  },
+  "large_document_projections": [
+    {
+      "total_document_pages": 50,
+      "estimated_eligible_pages": 30,
+      "strategies": {
+        "batch_1": {
+          "requests_required": 30,
+          "request_reduction_vs_raw": 40.0,
+          "requests_saved_vs_batch_1": 0
+        },
+        "batch_2": {
+          "requests_required": 15,
+          "request_reduction_vs_raw": 70.0,
+          "requests_saved_vs_batch_1": 15
+        },
+        "batch_3": {
+          "requests_required": 10,
+          "request_reduction_vs_raw": 80.0,
+          "requests_saved_vs_batch_1": 20
+        },
+        "batch_5": {
+          "requests_required": 6,
+          "request_reduction_vs_raw": 88.0,
+          "requests_saved_vs_batch_1": 24
+        }
+      }
+    },
+    {
+      "total_document_pages": 100,
+      "estimated_eligible_pages": 60,
+      "strategies": {
+        "batch_1": {
+          "requests_required": 60,
+          "request_reduction_vs_raw": 40.0,
+          "requests_saved_vs_batch_1": 0
+        },
+        "batch_2": {
+          "requests_required": 30,
+          "request_reduction_vs_raw": 70.0,
+          "requests_saved_vs_batch_1": 30
+        },
+        "batch_3": {
+          "requests_required": 20,
+          "request_reduction_vs_raw": 80.0,
+          "requests_saved_vs_batch_1": 40
+        },
+        "batch_5": {
+          "requests_required": 12,
+          "request_reduction_vs_raw": 88.0,
+          "requests_saved_vs_batch_1": 48
+        }
+      }
+    },
+    {
+      "total_document_pages": 200,
+      "estimated_eligible_pages": 120,
+      "strategies": {
+        "batch_1": {
+          "requests_required": 120,
+          "request_reduction_vs_raw": 40.0,
+          "requests_saved_vs_batch_1": 0
+        },
+        "batch_2": {
+          "requests_required": 60,
+          "request_reduction_vs_raw": 70.0,
+          "requests_saved_vs_batch_1": 60
+        },
+        "batch_3": {
+          "requests_required": 40,
+          "request_reduction_vs_raw": 80.0,
+          "requests_saved_vs_batch_1": 80
+        },
+        "batch_5": {
+          "requests_required": 24,
+          "request_reduction_vs_raw": 88.0,
+          "requests_saved_vs_batch_1": 96
+        }
+      }
+    },
+    {
+      "total_document_pages": 500,
+      "estimated_eligible_pages": 300,
+      "strategies": {
+        "batch_1": {
+          "requests_required": 300,
+          "request_reduction_vs_raw": 40.0,
+          "requests_saved_vs_batch_1": 0
+        },
+        "batch_2": {
+          "requests_required": 150,
+          "request_reduction_vs_raw": 70.0,
+          "requests_saved_vs_batch_1": 150
+        },
+        "batch_3": {
+          "requests_required": 100,
+          "request_reduction_vs_raw": 80.0,
+          "requests_saved_vs_batch_1": 200
+        },
+        "batch_5": {
+          "requests_required": 60,
+          "request_reduction_vs_raw": 88.0,
+          "requests_saved_vs_batch_1": 240
+        }
+      }
+    }
+  ],
+  "unseen_pdf_generalization": {
+    "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+    "total_pages": 100,
+    "eligible_pages_count": 99,
+    "batch_plans": {
+      "batch_1": {
+        "requests": 99,
+        "reduction_pct": 0.0
+      },
+      "batch_2": {
+        "requests": 50,
+        "reduction_pct": 49.5
+      },
+      "batch_3": {
+        "requests": 33,
+        "reduction_pct": 66.7
+      },
+      "batch_5": {
+        "requests": 20,
+        "reduction_pct": 79.8
+      }
+    }
+  },
+  "live_gemini_validation": {
+    "executed": false,
+    "reason": "Gemini validation not executed because API quota was unavailable or requests were rejected."
+  }
+}

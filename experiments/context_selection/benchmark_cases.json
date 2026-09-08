@@ -1,0 +1,959 @@
+{
+  "benchmark_version": "1.0.0",
+  "description": "FACTLINE Phase 12 Local Fact-Bearing Region & Context Window Benchmark (25 real starter PDF pages).",
+  "cases": [
+    {
+      "id": "case-01-delhivery-ar24-p2",
+      "case_type": "Case B \u2014 Stat callout",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery operational stat callouts (>2.8Bn express parcels, >4.8Mn tonnes freight, >33,200 active customers)",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-ar24-p2-fact1",
+          "gold_region_text": ">2.8Bn(1) Express parcel shipments delivered since inception",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Delhivery"
+            ],
+            "metric": [
+              "Express parcel shipments",
+              "shipments"
+            ],
+            "value": [
+              ">2.8Bn",
+              "2.8Bn",
+              "2.8"
+            ],
+            "unit": [
+              "shipments",
+              "parcels",
+              "Bn"
+            ],
+            "time_period": [
+              "inception",
+              "since inception"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-ar24-p2-fact2",
+          "gold_region_text": ">4.8Mn+ Tons(3) PTL freight tonnage since inception",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "unit"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Delhivery"
+            ],
+            "metric": [
+              "freight",
+              "tonnage",
+              "PTL"
+            ],
+            "value": [
+              ">4.8Mn",
+              "4.8Mn",
+              "4.8"
+            ],
+            "unit": [
+              "tonnes",
+              "tons",
+              "Mn"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-ar24-p2-fact3",
+          "gold_region_text": ">33,200 Active customers across express and freight",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "unit"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Delhivery"
+            ],
+            "metric": [
+              "Active customers",
+              "customers"
+            ],
+            "value": [
+              ">33,200",
+              "33,200"
+            ],
+            "unit": [
+              "customers"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-02-delhivery-ar24-p4",
+      "case_type": "Case A \u2014 Simple inline fact",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 4,
+      "description": "Delhivery annual growth highlights with revenue \u20b981,415.38 million and EBITDA margin",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-ar24-p4-fact1",
+          "gold_region_text": "Revenue from operations grew to \u20b981,415.38 million in FY24",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Revenue from operations",
+              "Revenue"
+            ],
+            "value": [
+              "81,415.38",
+              "81,415"
+            ],
+            "unit": [
+              "\u20b9",
+              "million",
+              "INR"
+            ],
+            "time_period": [
+              "FY24",
+              "2024",
+              "FY23"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-03-delhivery-ar24-p6",
+      "case_type": "Case C \u2014 Table fact",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 6,
+      "description": "Delhivery 5-year multi-column financial metrics table",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-ar24-p6-fact1",
+          "gold_region_text": "Financial Summary Revenue FY20 to FY24 multi-year column table",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Delhivery"
+            ],
+            "metric": [
+              "Revenue",
+              "Revenue from operations"
+            ],
+            "value": [
+              "81,415",
+              "72,253",
+              "8142",
+              "81,415.38"
+            ],
+            "time_period": [
+              "FY24",
+              "FY23",
+              "2024"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-04-delhivery-ar24-p8",
+      "case_type": "Case B \u2014 Stat callout",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 8,
+      "description": "Delhivery infrastructure facility capacity and automated sorters",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-ar24-p8-fact1",
+          "gold_region_text": "Infrastructure logistics facility network area and automated sorters",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit"
+          ],
+          "key_tokens": {
+            "metric": [
+              "area",
+              "sq",
+              "capacity",
+              "facilities",
+              "gateways",
+              "automated",
+              "network"
+            ],
+            "value": [
+              "18",
+              "million",
+              "sq",
+              "90",
+              "18.82"
+            ],
+            "unit": [
+              "sq",
+              "million",
+              "centres",
+              "gateways",
+              "ft"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-05-delhivery-ar24-p22",
+      "case_type": "Case E \u2014 Dense financial page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 22,
+      "description": "Delhivery audited standalone & consolidated balance sheet table",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-ar24-p22-fact1",
+          "gold_region_text": "Consolidated balance sheet total assets and equity liabilities",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Delhivery"
+            ],
+            "metric": [
+              "Total Assets",
+              "Revenue",
+              "Equity",
+              "Liabilities",
+              "Expenses"
+            ],
+            "value": [
+              "81,415",
+              "95,000",
+              "72,253",
+              "8142",
+              "1,000"
+            ],
+            "time_period": [
+              "March 31, 2024",
+              "2024",
+              "FY24"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-06-delhivery-q4-p5",
+      "case_type": "Case A \u2014 Simple inline fact",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 5,
+      "description": "Delhivery FY24 full year headline EBITDA and PAT highlights",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-q4-p5-fact1",
+          "gold_region_text": "FY24 EBITDA increased by Rs. 578 Cr to Rs. 127 Cr from Rs. (452 Cr) in FY23",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "EBITDA",
+              "profitability"
+            ],
+            "value": [
+              "127",
+              "578",
+              "452"
+            ],
+            "unit": [
+              "Rs.",
+              "Cr"
+            ],
+            "time_period": [
+              "FY24",
+              "FY23"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-q4-p5-fact2",
+          "gold_region_text": "PAT loss reduced by Rs. 759 Cr from Rs. (1,008 Cr) in FY23",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "PAT",
+              "PAT loss"
+            ],
+            "value": [
+              "759",
+              "1,008",
+              "1008"
+            ],
+            "unit": [
+              "Rs.",
+              "Cr"
+            ],
+            "time_period": [
+              "FY23",
+              "FY24",
+              "Q3 FY24"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-07-delhivery-q4-p6",
+      "case_type": "Case D \u2014 Header-dependent fact",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 6,
+      "description": "Delhivery full year revenue and tonnage metrics (\u20b98,142 Cr, 1.4 Mn Tons, 740 Mn shipments)",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-q4-p6-fact1",
+          "gold_region_text": "\u20b98,142 Cr FY24 revenue from services YoY: 12.7%",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "revenue from services",
+              "revenue"
+            ],
+            "value": [
+              "8,142",
+              "8142",
+              "12.7%"
+            ],
+            "unit": [
+              "\u20b9",
+              "Cr"
+            ],
+            "time_period": [
+              "FY24"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-q4-p6-fact2",
+          "gold_region_text": "1.4 Mn Tons PTL freight tonnage in FY24",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period",
+            "scope"
+          ],
+          "key_tokens": {
+            "metric": [
+              "PTL freight tonnage",
+              "freight",
+              "tonnage"
+            ],
+            "value": [
+              "1.4",
+              "1.4 Mn",
+              "29.8%"
+            ],
+            "unit": [
+              "Tons",
+              "Mn Tons"
+            ],
+            "time_period": [
+              "FY24"
+            ],
+            "scope": [
+              "PTL"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-q4-p6-fact3",
+          "gold_region_text": "740 Mn Express parcel shipments in FY24 YoY: 11.5%",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Express parcel shipments",
+              "shipments"
+            ],
+            "value": [
+              "740",
+              "740 Mn",
+              "11.5%"
+            ],
+            "unit": [
+              "Mn",
+              "shipments"
+            ],
+            "time_period": [
+              "FY24"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-08-delhivery-q4-p8",
+      "case_type": "Case B \u2014 Stat callout",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 8,
+      "description": "Delhivery key operating metrics summary (33,278 active customers, 18,793 pin codes, 3,506 centers)",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-q4-p8-fact1",
+          "gold_region_text": "No. of Active Customers 33,278 in Q4 FY24",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Active Customers",
+              "Customers"
+            ],
+            "value": [
+              "33,278",
+              "33278"
+            ],
+            "unit": [
+              "Customers"
+            ],
+            "time_period": [
+              "Q4 FY24",
+              "FY24"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-q4-p8-fact2",
+          "gold_region_text": "Pin-code reach 18,793 in Q4 FY24",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Pin-code reach",
+              "Pin-code",
+              "reach"
+            ],
+            "value": [
+              "18,793",
+              "18793"
+            ],
+            "time_period": [
+              "Q4 FY24"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-09-delhivery-q4-p20",
+      "case_type": "Case C \u2014 Table fact",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 20,
+      "description": "Delhivery liquidity position and cash balance table (Cash & equivalents 5,444 \u20b9 Cr)",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-q4-p20-fact1",
+          "gold_region_text": "Cash and cash equivalents \u20b95,444 Cr as of Mar \u201924",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Cash and cash equivalents",
+              "Cash"
+            ],
+            "value": [
+              "5,444",
+              "5444",
+              "5,508"
+            ],
+            "unit": [
+              "\u20b9",
+              "Cr"
+            ],
+            "time_period": [
+              "Mar \u201924",
+              "Mar '24",
+              "Mar"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-10-india-econ-survey-p4",
+      "case_type": "Case A \u2014 Simple inline fact",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 4,
+      "description": "India Economic Survey real GDP growth projection (6.4 per cent in FY25)",
+      "gold_regions": [
+        {
+          "fact_id": "india-econ-p4-fact1",
+          "gold_region_text": "India\u2019s real GDP is estimated to grow by 6.4 per cent in FY25",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "India"
+            ],
+            "metric": [
+              "real GDP",
+              "GDP",
+              "growth"
+            ],
+            "value": [
+              "6.4"
+            ],
+            "unit": [
+              "per cent",
+              "%"
+            ],
+            "time_period": [
+              "FY25"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-11-india-econ-survey-p6",
+      "case_type": "Case E \u2014 Dense financial page",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 6,
+      "description": "India Economic Survey global growth comparisons (US 2.8 per cent, Euro area 0.8 per cent)",
+      "gold_regions": [
+        {
+          "fact_id": "india-econ-p6-fact1",
+          "gold_region_text": "Growth in the US is expected to remain strong at 2.8 per cent in 2024",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "Growth",
+              "US"
+            ],
+            "value": [
+              "2.8"
+            ],
+            "unit": [
+              "per cent",
+              "%"
+            ],
+            "time_period": [
+              "2024"
+            ]
+          }
+        },
+        {
+          "fact_id": "india-econ-p6-fact2",
+          "gold_region_text": "Euro area growth expected to improve from 0.4 per cent in 2023 to 0.8 per cent in 2024",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "growth",
+              "Euro area"
+            ],
+            "value": [
+              "0.8",
+              "0.4"
+            ],
+            "unit": [
+              "per cent",
+              "%"
+            ],
+            "time_period": [
+              "2024",
+              "2023"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-12-rbi-ar-p10",
+      "case_type": "Case D \u2014 Header-dependent fact",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 10,
+      "description": "RBI Monetary Policy Committee reduced policy repo rate by 25 bps to 6.25 per cent in February 2025",
+      "gold_regions": [
+        {
+          "fact_id": "rbi-ar-p10-fact1",
+          "gold_region_text": "MPC reduced the policy repo rate by 25 bps to 6.25 per cent in February 2025",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "Monetary Policy Committee",
+              "MPC",
+              "Reserve Bank"
+            ],
+            "metric": [
+              "policy repo rate",
+              "repo rate"
+            ],
+            "value": [
+              "6.25",
+              "25 bps"
+            ],
+            "unit": [
+              "per cent",
+              "bps",
+              "%"
+            ],
+            "time_period": [
+              "February 2025",
+              "2025"
+            ]
+          }
+        },
+        {
+          "fact_id": "rbi-ar-p10-fact2",
+          "gold_region_text": "Food inflation remained elevated at 6.7 per cent in 2024-25",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "food inflation",
+              "inflation"
+            ],
+            "value": [
+              "6.7",
+              "9.7"
+            ],
+            "unit": [
+              "per cent",
+              "%"
+            ],
+            "time_period": [
+              "2024-25"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-13-rbi-ar-p24",
+      "case_type": "Case C \u2014 Table fact",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 24,
+      "description": "RBI Economic Review GDP and consumption expenditure growth (PFCE 7.6 per cent in 2024-25)",
+      "gold_regions": [
+        {
+          "fact_id": "rbi-ar-p24-fact1",
+          "gold_region_text": "Private final consumption expenditure (PFCE) improved to 7.6 per cent in 2024-25",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "private final consumption expenditure",
+              "PFCE"
+            ],
+            "value": [
+              "7.6",
+              "56.7"
+            ],
+            "unit": [
+              "per cent",
+              "%"
+            ],
+            "time_period": [
+              "2024-25"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-14-imf-artiv-p5",
+      "case_type": "Case C \u2014 Table fact",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 5,
+      "description": "IMF Table 1 Selected Social and Economic Indicators",
+      "gold_regions": [
+        {
+          "fact_id": "imf-artiv-p5-fact1",
+          "gold_region_text": "Table 1. India: Selected Social and Economic Indicators GDP growth projections",
+          "required_context_elements": [
+            "entity",
+            "metric",
+            "value",
+            "time_period"
+          ],
+          "key_tokens": {
+            "entity": [
+              "India",
+              "IMF"
+            ],
+            "metric": [
+              "Real GDP",
+              "Consumer price index",
+              "Current account balance",
+              "Gross domestic product"
+            ],
+            "value": [
+              "6.5",
+              "7.0",
+              "5.4",
+              "1.2"
+            ],
+            "time_period": [
+              "2024/25",
+              "2023/24",
+              "2025/26"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "case-15-imf-artiv-p1",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 1,
+      "description": "IMF Article IV blank cover title page",
+      "gold_regions": []
+    },
+    {
+      "id": "case-16-imf-artiv-p2",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/03-imf-india-2025-article-iv-excerpt.pdf",
+      "document": "03-imf-india-2025-article-iv-excerpt.pdf",
+      "page": 2,
+      "description": "IMF copyright and boilerplate publishing information",
+      "gold_regions": []
+    },
+    {
+      "id": "case-17-delhivery-prospectus-p2",
+      "case_type": "Case G \u2014 Number-heavy noise",
+      "pdf_path": "sample-data/starter-datasets/delhivery/01-delhivery-prospectus-2022-excerpt.pdf",
+      "document": "01-delhivery-prospectus-2022-excerpt.pdf",
+      "page": 2,
+      "description": "Delhivery Prospectus Table of Contents with page references",
+      "gold_regions": []
+    },
+    {
+      "id": "case-18-india-econ-survey-p1",
+      "case_type": "Case G \u2014 Number-heavy noise",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/01-india-economic-survey-2024-25-excerpt.pdf",
+      "document": "01-india-economic-survey-2024-25-excerpt.pdf",
+      "page": 1,
+      "description": "Economic Survey Table of Contents index and chapter outline",
+      "gold_regions": []
+    },
+    {
+      "id": "case-19-rbi-ar-p1",
+      "case_type": "Case G \u2014 Number-heavy noise",
+      "pdf_path": "sample-data/starter-datasets/india-macroeconomy/02-rbi-annual-report-2024-25-excerpt.pdf",
+      "document": "02-rbi-annual-report-2024-25-excerpt.pdf",
+      "page": 1,
+      "description": "RBI Annual Report Chapter overview / Roman numeral index",
+      "gold_regions": []
+    },
+    {
+      "id": "case-20-delhivery-ar24-p1",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 1,
+      "description": "Delhivery Corporate Overview cover divider",
+      "gold_regions": []
+    },
+    {
+      "id": "case-21-delhivery-ar24-p10",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/02-delhivery-annual-report-fy24-excerpt.pdf",
+      "document": "02-delhivery-annual-report-fy24-excerpt.pdf",
+      "page": 10,
+      "description": "CSR Narrative prose on Akshay Patra meal distribution partnership",
+      "gold_regions": []
+    },
+    {
+      "id": "case-22-delhivery-q4-p2",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 2,
+      "description": "Delhivery Q4 Earnings Presentation Title Slide",
+      "gold_regions": []
+    },
+    {
+      "id": "case-23-delhivery-q4-p3",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 3,
+      "description": "Delhivery Safe Harbour and Disclaimer statement",
+      "gold_regions": []
+    },
+    {
+      "id": "case-24-delhivery-q4-p4",
+      "case_type": "Case F \u2014 Narrative page",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 4,
+      "description": "Delhivery Presentation Section Divider Slide",
+      "gold_regions": []
+    },
+    {
+      "id": "case-25-delhivery-q4-p7",
+      "case_type": "Case H \u2014 Cross-page context",
+      "pdf_path": "sample-data/starter-datasets/delhivery/03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "document": "03-delhivery-q4-fy24-earnings-presentation.pdf",
+      "page": 7,
+      "description": "Delhivery Q4 FY24 quarterly revenue and volume metrics (\u20b92,076 Cr, 384K Tons, 176 Mn parcels)",
+      "gold_regions": [
+        {
+          "fact_id": "delhivery-q4-p7-fact1",
+          "gold_region_text": "\u20b92,076 Cr Q4 FY24 revenue from services (YoY 11.6%)",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "revenue from services",
+              "revenue"
+            ],
+            "value": [
+              "2,076",
+              "2076",
+              "11.6%"
+            ],
+            "unit": [
+              "\u20b9",
+              "Cr"
+            ],
+            "time_period": [
+              "Q4 FY24",
+              "Q4",
+              "FY24"
+            ]
+          }
+        },
+        {
+          "fact_id": "delhivery-q4-p7-fact2",
+          "gold_region_text": "384K Tons PTL freight tonnage in Q4 FY24",
+          "required_context_elements": [
+            "metric",
+            "value",
+            "unit",
+            "time_period"
+          ],
+          "key_tokens": {
+            "metric": [
+              "PTL freight tonnage",
+              "freight",
+              "tonnage"
+            ],
+            "value": [
+              "384K",
+              "384",
+              "20.8%"
+            ],
+            "unit": [
+              "Tons",
+              "K Tons"
+            ],
+            "time_period": [
+              "Q4 FY24",
+              "Q4"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
