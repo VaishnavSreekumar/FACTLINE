@@ -1,398 +1,632 @@
-# FACTLINE — System Architecture Specification
+# FACTLINE — Technical Architecture
 
-## 1. Problem Statement
-
-Modern financial, regulatory, and macroeconomic analysis requires synthesizing facts distributed across heterogeneous documents—such as draft prospectuses, annual reports, earnings calls, and official statistical releases.
-
-In practice:
-- Metrics change over time (e.g. FY23 vs FY24 vs Q4 FY24).
-- Reporting standards and units differ (e.g. ₹ million vs ₹ crore vs USD).
-- Revisions and data vintages alter figures (e.g. First Advance Estimate vs Revised Estimate).
-- Scopes vary (e.g. Standalone vs Consolidated, Express Parcel vs Total Logistics).
-- Geographies and currency bases introduce nuance.
-
-Naïve RAG and LLM chatbots often report false contradictions or falsely corroborate mismatched metrics because they perform raw string or vector comparisons without validating contextual equivalence.
+> FACTLINE is an evidence-first cross-document fact intelligence pipeline. Its central architectural constraint is that numerical or semantic relationships are evaluated only after the system has established that the underlying claims are comparable.
 
 ---
 
-## 2. Core Design Principle
+## A. Architectural Principles
 
-> **"Never compare two values before establishing that the claims are comparable."**
-
-Comparability is not raw string equality (`fact_a.metric == fact_b.metric`). Comparability is a semantic and contextual gate that evaluates whether two claims refer to the same underlying reality across all essential dimensions before comparing their numerical or qualitative values.
+1. **Evidence Before Reasoning**: No claim enters the reasoning pipeline without exact, verbatim substring grounding on a 1-indexed source PDF page. Source documents remain the sole authoritative ground truth.
+2. **Comparability Before Numerical Comparison**: Never compare two numerical or semantic values before establishing that the claims represent the same underlying entity, metric, temporal interval, accounting scope, and unit dimension.
+3. **Deterministic Logic for Deterministic Transformations**: Unit conversions, currency scaling, percentage calculations, date range parsing, candidate matching, comparability gating, rounding reconciliation, and persistence must be executed by deterministic Python code, never delegated to probabilistic LLM generation.
+4. **Abstention Over Unsupported Inference**: When essential context (scope, time bounds, geography) is ambiguous or missing, the system emits `INSUFFICIENT_CONTEXT` / `UNRESOLVED` rather than guessing or fabricating contradictions.
+5. **Raw Facts Remain Fully Recoverable**: Normalization produces derived canonical views; the original raw string representation (`value_raw`, `unit`, `time_period.label`) and source excerpt (`supporting_text`) are immutably preserved.
+6. **Provenance Is Inherent, Not Metadata**: Provenance is an essential structural component of a `FactRecord`, not an afterthought appended after extraction.
+7. **Candidate Generation $\neq$ Comparability Proof**: Candidate matching identifies plausible pairs for evaluation; it does not constitute proof of semantic equivalence or comparability.
+8. **LLM Output Is an Untrusted Proposal**: LLM extraction responses are treated as candidate proposals subject to strict schema validation and deterministic page-level evidence verification before acceptance.
+9. **Partial Execution Preserves Verified Work**: In the event of API rate limits (HTTP 429), provider errors (HTTP 503), or document processing interruptions, all facts verified prior to the failure are atomically persisted.
+10. **Provider Experimentation Must Not Contaminate Production**: Alternative model evaluations (e.g., Groq) remain isolated in dedicated test harnesses and do not alter production execution paths or core data contracts.
 
 ---
 
-## 3. High-Level Architecture & Pipeline
+## B. System Context Diagram
+
+```mermaid
+flowchart TB
+    subgraph External["External Environment"]
+        User["Analytical Reviewer / Engineer"]
+        PDFs["PDF Documents (Annual Reports, Presentations)"]
+        GeminiAPI["Google Gemini 3.6 Flash API"]
+    end
+
+    subgraph FACTLINE["FACTLINE System Boundary"]
+        UI["React + Vite Evidence-First UI\n(Port 5173)"]
+        API["FastAPI Backend REST API\n(Port 8000)"]
+        AnalysisSvc["AnalysisService Orchestrator\n(backend.services.analysis)"]
+        
+        subgraph Pipeline["Core Fact & Reasoning Pipeline"]
+            Parser["PDFParser (pypdf)"]
+            PageFilter["Page Relevance & Context Selector"]
+            Extractor["FactExtractor (Gemini Client)"]
+            Evidence["EvidenceVerifier (Substring Match)"]
+            Normalizer["FactNormalizer (Deterministic Math)"]
+            Matcher["CandidateMatcher (Conservative Heuristics)"]
+            Gate["ComparabilityGate (8 Dimensions)"]
+            Engine["RelationshipEngine (Rule Hierarchy)"]
+            Surfacing["RelationshipSurfacingFilter (Noise Reduction)"]
+        end
+
+        DB[(SQLite Embedded Store\nfactline.db)]
+    end
+
+    User -->|Uploads PDFs / Inspects Evidence| UI
+    UI -->|REST Requests (JSON / Multipart)| API
+    API -->|Orchestrates Processing| AnalysisSvc
+    PDFs -->|Raw File Bytes| Parser
+    
+    AnalysisSvc --> Parser
+    Parser --> PageFilter
+    PageFilter --> Extractor
+    Extractor <-->|Structured JSON Batches| GeminiAPI
+    Extractor --> Evidence
+    Evidence --> Normalizer
+    Normalizer --> Matcher
+    Matcher --> Gate
+    Gate --> Surfacing
+    Surfacing --> Engine
+    
+    AnalysisSvc -->|Atomic Transactions| DB
+    DB -->|Persisted Facts & Graph| AnalysisSvc
+    AnalysisSvc --> API
+    API --> UI
+```
+
+---
+
+## C. End-to-End Data Flow
+
+```mermaid
+flowchart TD
+    A[Raw PDF Upload] --> B[PDFParser.parse_bytes]
+    B --> C[ParsedDocument with 1-indexed PageTexts & Content Hash]
+    C --> D[Page Relevance Filter: Score & Filter Informative Pages]
+    D --> E[Context Selector: Region Detection & Context Radius 2]
+    E --> F[Quota Planner: Bounded Batch Size 5 & Concurrency 2]
+    F --> G[Gemini 3.6 Flash: Strict JSON Extraction]
+    G --> H[EvidenceVerifier: Verbatim Substring Grounding Check]
+    
+    H -- Grounding Fails --> X1[Reject Candidate Fact]
+    H -- Grounding Passes --> I[Verified FactRecords]
+    
+    I --> J[FactNormalizer: Scales, Currencies, ISO Time Intervals]
+    J --> K[NormalizedFact Set]
+    K --> L[CandidateMatcher: Heuristic Pair Generation]
+    L --> M[CandidatePairs]
+    
+    M --> N[ComparabilityGate: 8-Dimension Evaluation]
+    N -->|NON_COMPARABLE / INSUFFICIENT_CONTEXT| O1[ComparabilityResult: Incompatible/Missing]
+    N -->|COMPARABLE| O2[ComparabilityResult: Compatible]
+    
+    O1 --> P[RelationshipSurfacingFilter: Filter Cross-Metric Noise]
+    O2 --> P
+    
+    P --> Q[RelationshipEngine: Rule Hierarchy & Rounding Resolution]
+    Q --> R[RelationshipResults: CORROBORATES, CONTRADICTS, CONTEXT_RESOLVES, EVOLVES_FROM, SUPERSEDES, UNRESOLVED]
+    
+    R --> S[DatabaseRepository: Atomic SQLite Persistence]
+    I --> S
+    C --> S
+    S --> T[FastAPI Endpoints / React UI Grounded Display]
+```
+
+---
+
+## D. Component Responsibilities
+
+| Module / Component | Primary Responsibility | Deterministic? | External Dependencies |
+| :--- | :--- | :---: | :--- |
+| `backend/extraction/pdf_parser.py` | Parses binary PDF streams into 1-indexed page text objects with SHA256 content hashing. | ✓ | `pypdf` |
+| `backend/page_filter/relevance.py` | Computes numerical and semantic density scores to filter non-factual boilerplate pages. | ✓ | None |
+| `backend/context_selector/selector.py` | Expands relevant page contexts with adjacent page buffers (radius = 2) to preserve table headers. | ✓ | None |
+| `backend/extraction/prompts.py` | Maintains system instructions, few-shot examples, and strict JSON schema definitions for LLM extraction. | ✓ | None |
+| `backend/extraction/fact_extractor.py` | Manages quota budgets, 5-page batching, bounded 2-worker concurrency, and Gemini API calls. | Probabilistic Extraction | `google-genai` (Gemini 3.6 Flash) |
+| `backend/extraction/evidence.py` | Validates verbatim substring containment of `supporting_text` against authoritative page text. | ✓ | None |
+| `backend/normalization/normalizer.py` | Orchestrates normalization across values, units, currencies, entities, and temporal bounds. | ✓ | None |
+| `backend/normalization/units.py` | Standardizes monetary scales (crore, million, billion), percentages, counts, and currency codes. | ✓ | `decimal.Decimal` |
+| `backend/normalization/dates.py` | Parses fiscal years, quarters, and explicit dates into bounded ISO 8601 intervals. | ✓ | `datetime` |
+| `backend/normalization/entities.py` | Canonicalizes entity strings into presentation-ready names. | ✓ | None |
+| `backend/reasoning/matcher.py` | Identifies candidate pairs using deterministic entity and metric key overlap heuristics. | ✓ | None |
+| `backend/reasoning/comparability.py` | Enforces the Comparability Gate across 8 dimensions before any numerical comparison. | ✓ | None |
+| `backend/reasoning/relationships.py` | Classifies relationships via locked rule hierarchy and mathematical display resolution derivation. | ✓ | `decimal.Decimal` |
+| `backend/reasoning/surfacing.py` | Suppresses cross-metric noise, self-pairs, and weak candidate relationships post-gate. | ✓ | None |
+| `backend/services/analysis.py` | Orchestrates the end-to-end multi-document analysis workflow and coordinates persistence. | ✓ | None |
+| `backend/db/database.py` | Manages SQLite connection pooling, foreign keys, schema migrations, and atomic transactions. | ✓ | `sqlite3` |
+| `backend/api/routes.py` | Defines FastAPI REST routes for upload, extraction, analysis, reasoning, and inspection. | ✓ | `fastapi` |
+| `frontend/src/` | React + Vite UI for document upload, analysis execution, and dual-evidence inspection. | ✓ | React / Tailwind CSS |
+| `backend/groq_experiment/` | Isolated evaluation harness benchmarking alternative LLM providers (`openai/gpt-oss-120b`). | Probabilistic | `groq` SDK |
+
+---
+
+## E. Fact Data Model
+
+```mermaid
+classDiagram
+    class FactRecord {
+        +str fact_id
+        +str entity
+        +str metric
+        +str value_raw
+        +Optional~float~ value_numeric
+        +Optional~str~ unit
+        +TimePeriod time_period
+        +Optional~str~ scope
+        +Optional~str~ geography
+        +EpistemicStatus epistemic_status
+        +Optional~str~ data_vintage
+        +Provenance provenance
+        +float extraction_confidence
+    }
+
+    class Provenance {
+        +str document_id
+        +Optional~str~ document_date
+        +int page_number
+        +str supporting_text
+    }
+
+    class TimePeriod {
+        +str label
+        +Optional~str~ start_date
+        +Optional~str~ end_date
+    }
+
+    class EpistemicStatus {
+        <<enumeration>>
+        REPORTED
+        ESTIMATED
+        PROJECTED
+        TARGET
+        AUDITED
+    }
+
+    class NormalizedFact {
+        +FactRecord fact
+        +NormalizedValue normalized_value
+        +Optional~str~ canonical_entity
+        +Optional~str~ canonical_metric
+        +Optional~TimePeriod~ normalized_time_period
+        +List~str~ normalization_warnings
+    }
+
+    class NormalizedValue {
+        +Optional~float~ numeric_value
+        +Optional~str~ canonical_unit
+        +Optional~str~ scale
+        +Optional~str~ value_qualifier
+        +Optional~str~ currency
+        +str original_value_raw
+        +NormalizationStatus normalization_status
+        +Optional~str~ normalization_notes
+    }
+
+    class ComparabilityResult {
+        +ComparabilityStatus status
+        +List~str~ reason_codes
+        +Dict~str,str~ compared_dimensions
+        +List~str~ notes
+    }
+
+    class RelationshipResult {
+        +str relationship_id
+        +str fact_a_id
+        +str fact_b_id
+        +RelationshipType relationship_type
+        +List~str~ reason_codes
+        +str explanation
+        +float confidence
+        +Optional~Provenance~ evidence_a
+        +Optional~Provenance~ evidence_b
+        +List~str~ contextual_factors
+    }
+
+    FactRecord --> Provenance
+    FactRecord --> TimePeriod
+    FactRecord --> EpistemicStatus
+    NormalizedFact --> FactRecord
+    NormalizedFact --> NormalizedValue
+    RelationshipResult --> Provenance
+```
+
+---
+
+## F. Provenance and Evidence Architecture
+
+The fundamental guarantee of FACTLINE is **unbroken, auditable evidence grounding**:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant PDF as PDFParser
+    participant FE as FactExtractor (Gemini)
+    participant EV as EvidenceVerifier
+    participant NM as FactNormalizer
+    participant DB as SQLite DB
+
+    PDF->>FE: 1-indexed PageText (doc_id, page_num, text)
+    FE->>EV: Extracted Candidate Fact (supporting_text, page_number)
+    EV->>PDF: Fetch authoritative text for page_number
+    Note over EV: Step 1: Exact Substring Containment
+    alt Substring found in page_text
+        EV->>NM: Verified FactRecord
+    else Substring not found
+        Note over EV: Step 2: Whitespace-Normalized Containment
+        alt Normalized text contains normalized supporting_text
+            EV->>NM: Verified FactRecord
+        else Match Fails
+            EV-->>FE: REJECT Fact (Grounding Failure)
+        end
+    end
+    NM->>DB: NormalizedFact with Immutable Provenance
+```
+
+### Invariants:
+1. **1-Indexed Pagination**: Page numbers match the physical PDF page indices (1 to $N$).
+2. **Page-Boundary Integrity**: Facts extracted from Page $K$ must have supporting text located on Page $K$. Cross-page evidence leakage is strictly prohibited.
+3. **Zero Tolerance for Hallucinations**: If the model extracts a fact whose supporting quote cannot be matched on the claimed page, the candidate fact is immediately discarded (`facts_rejected_grounding += 1`).
+
+---
+
+## G. Extraction Architecture
+
+The extraction layer coordinates between raw PDF pages and Google Gemini 3.6 Flash:
+
+### Pipeline Stages
+1. **Relevance Scoring**: `PageRelevanceFilter` scores pages based on numerical density, financial keyword frequency, and structural signals. Pages scoring below threshold ($0.30$) without context dependencies are skipped.
+2. **Context Window Expansion**: Selected pages are enriched with previous and subsequent page context (radius = 2) to maintain table header awareness.
+3. **5-Page Batching**: Pages are grouped into 5-page batches to minimize API round-trips while remaining within token limits.
+4. **Structured Gemini Extraction**: Dispatched with strict JSON schemas requesting entity, metric, raw value, numeric value, unit, temporal label, scope, geography, epistemic status, and supporting text.
+5. **Evidence Grounding**: Every extracted fact passes through `EvidenceVerifier`.
+
+### What Gemini Does NOT Do:
+* Gemini does **not** perform unit or currency conversions.
+* Gemini does **not** calculate numerical differences or percentages.
+* Gemini does **not** evaluate whether two claims contradict or corroborate.
+* Gemini does **not** perform rounding reconciliation.
+* Gemini does **not** manage persistence or database transactions.
+
+---
+
+## H. Normalization Architecture
+
+Deterministic normalization transforms varied textual representations into standardized numerical dimensions:
+
+### 1. Numeric and Monetary Scaling
+Units and scales are parsed using `UnitNormalizer` and high-precision `decimal.Decimal` arithmetic:
+
+$$\text{Canonical Value} = \text{Raw Numeric} \times \text{Scale Multiplier}$$
+
+* `₹8,142 Cr` $\rightarrow$ `numeric_value: 8142000000.0`, `canonical_unit: "INR"`, `scale: "crore"` (multiplier $10^7$).
+* `₹81,415.38 million` $\rightarrow$ `numeric_value: 81415380000.0`, `canonical_unit: "INR"`, `scale: "million"` (multiplier $10^6$).
+* `$1.5B` $\rightarrow$ `numeric_value: 1500000000.0`, `canonical_unit: "USD"`, `scale: "billion"` (multiplier $10^9$).
+
+### 2. Percentage and Count Normalization
+* `6.4%` $\rightarrow$ `numeric_value: 6.4`, `canonical_unit: "percent"`.
+* `33,278 customers` $\rightarrow$ `numeric_value: 33278.0`, `canonical_unit: "count"`.
+
+### 3. Inequality Qualifiers
+* `>33,200` $\rightarrow$ `numeric_value: 33200.0`, `value_qualifier: ">"`.
+* `~500` $\rightarrow$ `numeric_value: 500.0`, `value_qualifier: "~"`.
+
+### 4. Temporal Range Parsing
+* `"FY24"` or `"2023-24"` $\rightarrow$ `label: "FY24"`. (If fiscal calendar is unresolved, dates remain `None` to prevent hallucinating calendar intervals).
+* `"Q4 FY24"` $\rightarrow$ `label: "Q4 FY24"`.
+
+---
+
+## I. Candidate Matching Architecture
+
+To prevent combinatorial explosion ($O(N^2)$ LLM calls), `CandidateMatcher` generates pairs using deterministic keys:
+
+1. **Entity Match**: Exact match on `canonical_entity` or normalized base entity.
+2. **Metric Match**: Exact match on `canonical_metric` or shared core metric stems (e.g., `revenue`, `gdp growth`).
+3. **Cross-Document Heuristic**: Filters out trivial intra-document self-comparisons unless distinct vintages or time periods are indicated.
+
+**Core Axiom**: `CandidatePair` represents a pair queued for evaluation. **Candidate pairing is not proof of comparability or relationship.**
+
+---
+
+## J. Comparability Gate Architecture
+
+The `ComparabilityGate` is the core architectural checkpoint. It inspects 8 orthogonal dimensions:
+
+```mermaid
+flowchart TD
+    Pair[Candidate Fact Pair A & B] --> D1{1. Entity Match?}
+    D1 -- No --> R1[NON_COMPARABLE: ENTITY_MISMATCH]
+    D1 -- Missing --> U1[INSUFFICIENT_CONTEXT: MISSING_ENTITY]
+    D1 -- Yes --> D2{2. Metric Match?}
+    
+    D2 -- No --> R2[NON_COMPARABLE: METRIC_MISMATCH]
+    D2 -- Missing --> U2[INSUFFICIENT_CONTEXT: MISSING_METRIC]
+    D2 -- Yes --> D3{3. Unit & Currency Compatible?}
+    
+    D3 -- No --> R3[NON_COMPARABLE: UNIT_MISMATCH]
+    D3 -- Missing --> U3[INSUFFICIENT_CONTEXT: MISSING_UNIT]
+    D3 -- Yes --> D4{4. Time Interval Match?}
+    
+    D4 -- No --> R4[NON_COMPARABLE: TIME_MISMATCH]
+    D4 -- Missing --> U4[INSUFFICIENT_CONTEXT: MISSING_TIME]
+    D4 -- Yes --> D5{5. Scope Compatible?}
+    
+    D5 -- No --> R5[NON_COMPARABLE: SCOPE_MISMATCH]
+    D5 -- Missing --> U5[INSUFFICIENT_CONTEXT: MISSING_SCOPE]
+    D5 -- Yes --> D6{6. Geography Compatible?}
+    
+    D6 -- No --> R6[NON_COMPARABLE: GEOGRAPHY_MISMATCH]
+    D6 -- Missing --> U6[INSUFFICIENT_CONTEXT: MISSING_GEOGRAPHY]
+    D6 -- Yes --> Comp[Status: COMPARABLE]
+```
+
+### Comparability Reason Codes
+* `ENTITY_MISMATCH` / `MISSING_ENTITY`
+* `METRIC_MISMATCH` / `MISSING_METRIC`
+* `UNIT_MISMATCH` / `MISSING_UNIT`
+* `TIME_MISMATCH` / `MISSING_TIME` (e.g., Annual vs. Q4)
+* `SCOPE_MISMATCH` / `MISSING_SCOPE` (e.g., Consolidated vs. Standalone)
+* `GEOGRAPHY_MISMATCH` / `MISSING_GEOGRAPHY`
+
+---
+
+## K. Relationship Engine Architecture
+
+Once declared `COMPARABLE`, facts are passed to the `RelationshipEngine`. It executes a deterministic rule hierarchy:
+
+```mermaid
+flowchart TD
+    Start[Comparable Fact Pair] --> CheckEq{Exact Normalized Values Equal?}
+    CheckEq -- Yes --> Corrob[CORROBORATES]
+    
+    CheckEq -- No --> CheckRound{Rounding Tolerance Compatible?}
+    CheckRound -- Yes --> CtxRes[CONTEXT_RESOLVES\nRounding Reconciliation]
+    
+    CheckRound -- No --> CheckVintage{Official Vintage Revision?}
+    CheckVintage -- Yes --> Evolves[EVOLVES_FROM]
+    
+    CheckVintage -- No --> CheckSuper{Explicit Supersession Keyword?}
+    CheckSuper -- Yes --> Supersede[SUPERSEDES]
+    
+    CheckSuper -- No --> Contradict[CONTRADICTS]
+```
+
+### Mathematical Rounding Resolution (`CONTEXT_RESOLVES`)
+When two sources report slightly different figures due to different display scales (e.g., crores vs. millions), FACTLINE computes the display resolution $R$ for each fact:
+
+$$R = 10^{-\text{decimals}} \times \text{Scale Multiplier}$$
+
+$$\Delta_{\max} = 0.5 \times \max(R_A, R_B)$$
+
+#### Verified Case:
+* Fact A: `₹8,142 crore` (0 decimals in crore scale $\rightarrow R_A = 10^0 \times 10^7 = 10,000,000\text{ INR}$).
+* Fact B: `₹81,415.38 million` (2 decimals in million scale $\rightarrow R_B = 10^{-2} \times 10^6 = 10,000\text{ INR}$).
+* Maximum rounding tolerance: $\Delta_{\max} = 0.5 \times \max(10^7, 10^4) = 5,000,000\text{ INR}$.
+* Absolute difference: $|\text{Canonical}_A - \text{Canonical}_B| = |81,420,000,000 - 81,415,380,000| = 4,620,000\text{ INR}$.
+* Since $4,620,000 \le 5,000,000$, the relationship is classified deterministically as `CONTEXT_RESOLVES`.
+
+---
+
+## L. Relationship Surfacing Filter
+
+The `RelationshipSurfacingFilter` executes after the Comparability Gate to eliminate uninformative relationships:
+* Suppresses cross-metric pairings where no explicit comparison or bridging language exists.
+* Suppresses duplicate self-pairs.
+* Suppresses weak candidate pairings lacking required contextual confidence.
+
+---
+
+## M. Quota & Concurrency Architecture
+
+To balance extraction throughput with API rate limits:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Svc as AnalysisService
+    participant QP as QuotaPlanner
+    participant W1 as Worker 1
+    participant W2 as Worker 2
+    participant API as Gemini API
+
+    Svc->>QP: Plan batches (Total eligible pages, batch_size=5)
+    QP-->>Svc: Batch schedule [Batch 1, Batch 2, Batch 3, ...]
+    par Concurrent Execution (max_workers=2)
+        Svc->>W1: Process Batch 1 (Pages 1-5)
+        W1->>API: Extract facts JSON
+        API-->>W1: 200 OK + Facts JSON
+        W1-->>Svc: Verified facts Batch 1
+    and
+        Svc->>W2: Process Batch 2 (Pages 6-10)
+        W2->>API: Extract facts JSON
+        API-->>W2: 200 OK + Facts JSON
+        W2-->>Svc: Verified facts Batch 2
+    end
+    Note over Svc,API: Immediate 429 Halt: If any worker receives HTTP 429, pool stops gracefully.
+```
+
+* **Batch Size**: 5 pages per request.
+* **Concurrency**: 2 bounded worker threads.
+* **HTTP 429 Handling**: Immediate graceful halt with state set to `PARTIAL_QUOTA`.
+* **HTTP 503 Handling**: Bounded exponential backoff retry.
+* **Persistence Guarantee**: All facts extracted and verified before quota exhaustion are persisted to SQLite.
+
+---
+
+## N. Failure Modes & Recovery
+
+| Failure Mode | Detection Mechanism | System Behavior | Data Preserved? |
+| :--- | :--- | :--- | :---: |
+| **Corrupt / Non-PDF Upload** | `pypdf.PdfReader` exception in `PDFParser` | HTTP 400 Bad Request returned with clear error message. | N/A |
+| **Image-Only / Scanned Page** | Character count $< 50$ after parsing | Page marked non-informative by `PageRelevanceFilter`; skipped. | Yes |
+| **Malformed Model Output** | Pydantic JSON schema parsing validation error | Batch discarded; error logged; pipeline continues to next batch. | Verified facts retained |
+| **Evidence Grounding Failure** | Substring verification failure in `EvidenceVerifier` | Candidate fact dropped; grounding rejection metric incremented. | Valid facts retained |
+| **Provider Rate Limit (HTTP 429)** | `ExtractionQuotaError` caught in extractor | Immediate processing halt; status set to `PARTIAL_QUOTA`. | **All prior verified facts persisted** |
+| **Provider Outage (HTTP 503)** | Bounded retry loop exhaustion | Bounded backoff attempted; on failure, transitions to `PARTIAL_QUOTA`. | **All prior verified facts persisted** |
+| **Missing Scope / Date Context** | `ComparabilityGate` evaluation | Status set to `INSUFFICIENT_CONTEXT`; relationship set to `UNRESOLVED`. | Yes |
+| **Database Transaction Failure** | `sqlite3.Error` exception | Transaction rolled back cleanly; HTTP 500 error returned. | Prior transactions intact |
+
+---
+
+## O. Persistence Architecture (SQLite Schema)
+
+```mermaid
+erDiagram
+    documents ||--o{ facts : "contains"
+    facts ||--o{ relationships : "fact_a"
+    facts ||--o{ relationships : "fact_b"
+    analyses ||--o{ documents : "analyzes"
+
+    documents {
+        text document_id PK
+        text document_name
+        text content_hash
+        integer total_pages
+        text created_at
+    }
+
+    facts {
+        text fact_id PK
+        text document_id FK
+        text entity
+        text metric
+        text value_raw
+        real value_numeric
+        text unit
+        text time_period_label
+        text time_period_start
+        text time_period_end
+        text scope
+        text geography
+        text epistemic_status
+        text data_vintage
+        real extraction_confidence
+        integer provenance_page
+        text provenance_text
+        text provenance_date
+        text canonical_entity
+        text canonical_metric
+        real canonical_value
+        text canonical_unit
+        text scale
+        text currency
+        text normalization_status
+        text raw_json
+    }
+
+    relationships {
+        text relationship_id PK
+        text fact_a_id FK
+        text fact_b_id FK
+        text relationship_type
+        text reason_codes
+        text explanation
+        real confidence
+        text evidence_a
+        text evidence_b
+        text contextual_factors
+    }
+
+    analyses {
+        text analysis_id PK
+        text created_at
+        text document_ids
+        text status
+        integer total_facts
+        integer total_relationships
+        text summary_json
+    }
+```
+
+---
+
+## P. API Architecture
+
+The FastAPI application (`backend/main.py`, `backend/api/routes.py`) exposes the following endpoints:
+
+* `GET /health` $\rightarrow$ System health and readiness check (`{"status": "ok"}`).
+* `POST /documents/parse` $\rightarrow$ Stateless parsing of an uploaded PDF into 1-indexed `PageText` objects.
+* `POST /documents/extract-facts` $\rightarrow$ Parses PDF and returns grounded `FactRecord` objects.
+* `POST /reason/relationship` $\rightarrow$ Stateless comparability and relationship evaluation for two `NormalizedFact` objects.
+* `POST /analysis` $\rightarrow$ Multi-file upload orchestration: parsing, extraction, normalization, candidate matching, comparability gating, relationship evaluation, and persistence.
+* `GET /analysis/{analysis_id}` $\rightarrow$ Retrieves full analysis record, document metadata, facts, and relationship graph from SQLite.
+* `GET /` $\rightarrow$ Root metadata.
+
+---
+
+## Q. UI Architecture
+
+The frontend is a lightweight React + Vite single-page application:
+* **UploadZone**: Multi-file drag-and-drop supporting concurrent PDF uploads.
+* **AnalysisStatus**: Real-time display of execution status, processed pages, requests used, and quota indicators.
+* **FactList**: Dense, tabular display of raw vs. canonical facts with filterable entity and metric facets.
+* **RelationshipMatrix**: Relationship classification matrix with visual indicators for corroboration, contradiction, rounding resolution, and vintage evolution.
+* **EvidenceViewer**: Dual-panel source inspector displaying verbatim text snippets and 1-indexed page references side-by-side.
+
+**Zero Client-Side Inference**: All reasoning, matching, gating, and mathematics are executed on the backend.
+
+---
+
+## R. Security & Credential Isolation
+
+* **Environment-Based Configuration**: API credentials (`GEMINI_API_KEY`) are read strictly from environment variables via `python-dotenv`.
+* **Repository Isolation**: `.env` and `factline.db` are explicitly excluded in `.gitignore`.
+* **Safe Example Templates**: `.env.example` provides placeholder keys without secrets.
+* **Isolated Experimental Keys**: Experimental Groq credentials are read from separate environment keys (`GROQ_API_KEY`) and are never used in production codepaths.
+
+---
+
+## S. Alternative Provider Experiment (Groq)
+
+In `backend/groq_experiment/`, an isolated evaluation was performed benchmarking Groq (`openai/gpt-oss-120b`) against Gemini 3.6 Flash across a fixed 25-page diverse corpus:
+
+* **Gemini 3.6 Flash**: 5/5 successful batches, 48 raw facts, 48 grounded facts (100% evidence verification).
+* **Groq `openai/gpt-oss-120b`**: 1/5 successful batches, 2 raw facts, 1 grounded fact, 2 schema validation errors (HTTP 400), 2 rate limit errors (HTTP 429 8k TPM).
+
+**Decision**: Gemini 3.6 Flash was retained as the sole production provider. The Groq harness remains strictly an experimental benchmark.
+
+---
+
+## T. Engineering Trade-offs
+
+| Decision | Chosen Approach | Alternative Considered | Rationale |
+| :--- | :--- | :--- | :--- |
+| **Model Provider** | Google Gemini 3.6 Flash | Groq / Local Models | Gemini exhibited 100% structured JSON compliance and zero schema rejections. |
+| **Normalization** | Deterministic Python Engine | LLM-based Normalization | Eliminates arithmetic hallucinations and ensures mathematical rounding consistency. |
+| **Database** | Embedded SQLite | Neo4j / PostgreSQL | Zero operational overhead, single-file portability, and ACID transaction guarantees. |
+| **Candidate Pairing** | Conservative Heuristic Keys | Vector DB / Embeddings | Eliminates vector index latency and prevents false-positive semantic pairing. |
+| **Execution Model** | Bounded 2-Worker Concurrency | Unbounded Async / Queue | Maximizes throughput while strictly avoiding API rate limits (HTTP 429). |
+| **Ambiguity Handling** | Strict Abstention (`UNRESOLVED`) | Guessing / Default Imputation | Preserves analytical auditability and prevents false contradiction alerts. |
+
+---
+
+## U. Extensibility
+
+Future extraction backends or domain-specific normalizers can be integrated cleanly:
 
 ```text
-                    PDF Documents
-                         │
-                         ▼
-                Page-Aware PDF Parser (PyMuPDF)
-                         │
-                         ▼
-                 Fact Extraction (LLM + Structured Schema)
-                         │
-                         ▼
-                Grounded Fact Records
-                         │ (fact_id, entity, metric, value, time_period,
-                         │  provenance, page, supporting_text)
-                         │
-                         ▼
-                  Normalization Layer
-                         │ (Units, Scales, Dates, Entity aliases)
-                         │
-                         ▼
-                  Candidate Matcher
-                         │
-                         ▼
-                COMPARABILITY GATE
-                         │
-             ┌───────────┼───────────┐
-             ▼           ▼           ▼
-         Comparable   Insufficient   Non-comparable
-             │          Context          │
-             ▼             │              ▼
-       Relationship        └──────►   UNRESOLVED
-          Engine
-             │
-      ┌──────┼─────────┬───────────────┐
-      ▼      ▼         ▼               ▼
- CORROBORATES  CONTRADICTS  CONTEXT_RESOLVES
-      │
-      ▼
- EVOLVES_FROM / SUPERSEDES
-             │
-             ▼
-       Explanation Layer (Grounded provenance & contextual resolution)
-             │
-             ▼
-       Evidence-First UI (Side-by-side claim & source evidence inspection)
+Alternative Extractor ──► [FactRecord Standard Contract] ──► EvidenceVerifier ──► Deterministic Pipeline
 ```
+
+Any extractor producing valid `FactRecord` objects with 1-indexed page numbers and verbatim `supporting_text` automatically benefits from the downstream evidence verification, normalization, comparability gate, and relationship engine.
 
 ---
 
-## 3.1. Evidence Layer & Page-Aware Parser (Phase 1)
+## V. Known Limitations
 
-The foundation of FACTLINE is page-accurate text extraction and immutable provenance tracing:
-
-```text
-PDF
- │
- ▼
-PyMuPDF (pymupdf)
- │
- ▼
-PageText (1-indexed page_number, raw text, char_count, has_text)
- │
- ▼
-Evidence / Provenance (document_id, page_number, supporting_text)
-```
-
-### Key Invariants:
-1. **1-Indexed Page Numbering**: All page references are strictly 1-indexed (`page_number = index + 1`) to remain human-readable and match document physical pages.
-2. **Deterministic Source Truth**: Raw text is preserved faithfully without paraphrasing, summarizing, or altering numbers and symbols.
-3. **Provenance Traceability**: Every extracted fact links directly to a specific page number and the exact supporting text snippet on that page.
-4. **Current Limitation**: The current evidence layer relies on embedded/extractable PDF text and does not yet perform OCR for image-only pages.
+1. **Irregular / Borderless Tables**: Tables without clear visual dividers may yield fragmented text streams from standard PDF extractors.
+2. **Multi-Step Accounting Deductions**: FACTLINE extracts stated factual claims; it does not reconstruct balance sheets or execute multi-statement arithmetic deductions.
+3. **Cross-Document Entity Aliasing**: Disparate corporate legal names across documents require explicit canonical alias mapping.
+4. **Provider Quotas**: Large enterprise document sets require appropriate API rate-limit tiers.
 
 ---
 
-## 3.2. Structured Fact Extraction Pipeline (Phase 2)
+## W. Validation & Benchmark Summary
 
-Phase 2 converts extracted page text into structured `FactRecord` candidates grounded in source evidence:
-
-```text
-ParsedDocument
-      │
-      ▼
-PageText (1-indexed page_number, raw text)
-      │
-      ▼
-FactExtractor (Gemini structured JSON schema)
-      │
-      ▼
-Raw Candidate Claims (entity, metric, value_raw, time_period, epistemic_status, quote)
-      │
-      ▼
-Deterministic Verification Layer
-      ├── Pydantic Schema Validation (FactRecord)
-      ├── Epistemic Status Validation
-      ├── Confidence Clamping [0.0, 1.0]
-      ├── Provenance Assembly (document_id, page_number, supporting_text)
-      ├── Evidence Verification (EvidenceVerifier against PageText) ──► Reject if ungrounded
-      └── Deterministic Fact ID Generation (SHA-256 digest)
-      │
-      ▼
-Validated Grounded FactRecords
-```
-
-### LLM vs Deterministic Application Boundary:
-- **LLM Responsibility**: Semantic interpretation of complex natural language in tables and prose, identifying candidate metrics, entity subjects, temporal labels, and locating supporting verbatim text spans.
-- **Deterministic Application Responsibility**: Strict schema validation, provenance construction, checking that `supporting_text` exists on the physical page text via `EvidenceVerifier`, computing reproducible `fact_id`s, and rejecting ungrounded or malformed candidates.
-
-### Critical Invariants:
-1. **Evidence Verification**: The LLM is NEVER the source of truth for evidence. If candidate `supporting_text` does not exist on the source page text, the candidate fact is strictly **rejected**.
-2. **Epistemic Status Preservation**: Distinguishes between `reported`, `estimated`, `projected`, `target`, and `audited`. Estimated/projected/target claims are never silently converted to `reported`.
-3. **Deterministic Fact IDs**: Fact IDs are calculated from `(document_id, page_number, entity, metric, value_raw, time_period.label)` via SHA-256 hash.
-4. **Context Integrity**: Unmentioned contextual attributes (`scope`, `geography`, `data_vintage`) remain `None` rather than being hallucinated.
-5. **No Cross-Document Comparison**: Phase 2 strictly operates page-by-page. It does **not** perform cross-document matching, comparability gating, or contradiction detection.
-
-### LLM Configuration & Failure Modes:
-- **Provider**: Google Gemini REST API via `GEMINI_API_KEY` (or `LLM_API_KEY`) and `GEMINI_MODEL` (default: `gemini-1.5-flash`).
-- **Empty Pages**: Pages with no extractable text are skipped without invoking the LLM.
-- **API / Parsing Errors**: Surface controlled `ExtractionError` rather than silently fabricating fallback facts.
-
----
-
-## 4. Canonical Fact & Provenance Schema
-
-### Epistemic Status
-```python
-class EpistemicStatus(str, Enum):
-    REPORTED = "reported"      # Audited/historic official statements
-    ESTIMATED = "estimated"    # Interim / preliminary estimations
-    PROJECTED = "projected"    # Forward-looking forecasts
-    TARGET = "target"          # Management goals / budgets
-    AUDITED = "audited"        # Explicitly audited final figures
-```
-
-### Provenance Model
-```python
-class Provenance(BaseModel):
-    document_id: str
-    document_date: Optional[str] = None
-    page_number: int
-    supporting_text: str
-```
-
-### Temporal Distinction
-Temporal information strictly differentiates between:
-- `time_period`: The interval or point in time the metric actually describes (e.g., `FY2023-24`, `Q4 FY24`).
-- `document_date`: The publication or release date of the document (e.g., `2024-05-17`).
-- `data_vintage`: The release edition, estimate revision, or publication vintage (e.g., `First Advance Estimate`, `Provisional Actuals`).
-
-```python
-class TimePeriod(BaseModel):
-    label: str
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
-```
-
-### Canonical Fact Record
-```python
-class FactRecord(BaseModel):
-    fact_id: str
-
-    entity: str
-    metric: str
-
-    value_raw: str
-    value_numeric: Optional[float] = None
-    unit: Optional[str] = None
-
-    time_period: TimePeriod
-
-    scope: Optional[str] = None
-    geography: Optional[str] = None
-
-    epistemic_status: EpistemicStatus = EpistemicStatus.REPORTED
-    data_vintage: Optional[str] = None
-
-    provenance: Provenance
-    extraction_confidence: float = 0.0
-```
-
----
-
-## 5. Normalization Layer (Phase 3)
-
-The normalization layer transforms raw extracted `FactRecord` claims into canonical `NormalizedFact` representations deterministically without mutating or destroying source truth.
-
-```text
-FactRecord (Immutable Source Truth)
-   │
-   ▼
-FactNormalizer (Deterministic Pipeline)
-   ├── UnitNormalizer (Decimal scaling: crore, lakh, million, billion; explicit currencies)
-   ├── DateNormalizer (Bounded ISO intervals; strict fiscal convention validation)
-   ├── EntityNormalizer (Presentation-friendly casing; generic legal suffix removal)
-   └── MetricNormalizer (Whitespace & case standardization without semantic merging)
-   │
-   ▼
-NormalizedFact (Derived Canonical Representation)
-   ├── fact: FactRecord (Original unmodified fact with provenance)
-   ├── normalized_value: NormalizedValue (Canonical numeric magnitude, unit, currency)
-   ├── canonical_entity: str (e.g. "Delhivery Limited" -> "Delhivery")
-   ├── canonical_metric: str (e.g. "Revenue from Operations" -> "revenue from operations")
-   ├── normalized_time_period: Optional[TimePeriod] (ISO start_date and end_date)
-   └── normalization_warnings: List[str]
-```
-
-### Key Invariants & Rules:
-1. **Source Preservation**: The original `FactRecord` (`value_raw`, `provenance`, `entity`, `metric`, `time_period.label`) is NEVER altered or overwritten.
-2. **Exact Decimal Arithmetic**: Monetary and scale multiplications use exact integer/decimal math (`1 crore = 10,000,000`, `1 million = 1,000,000`) before converting to float at the model boundary to eliminate floating-point precision drift.
-   - Example: `₹8,142 Cr` → `81,420,000,000 INR`
-   - Example: `₹81,415.38 million` → `81,415,380,000 INR`
-3. **Percentage Invariant**: Percentage figures retain percentage point representation (`6.4%` → `numeric_value=6.4, canonical_unit="percent"`). They are never converted to `0.064` to prevent confusion between percentage points and decimal ratios.
-4. **Currency Safety**: Explicit currencies (`₹`, `INR`, `Rs.`, `US$`, `USD`, `€`, `EUR`, `£`, `GBP`) are recognized. Bare `$` symbols without explicit country codes are left unassigned (`currency=None`, status `PARTIAL`) to prevent false cross-currency comparisons.
-5. **Conservative Fiscal Year Parsing**: Bare `FY24` or `Q4 FY24` labels are NOT blindly assumed to follow an April–March fiscal year unless the fiscal convention is explicitly established. Unresolved fiscal labels return `normalized_time_period=None` with diagnostic warnings.
-6. **Conservative Entity Canonicalization**: Generic legal corporate suffixes (`Limited`, `Ltd.`, `Pvt. Ltd.`, `Inc.`, `Corp.`) are stripped deterministically while preserving presentation-friendly casing (`"Delhivery Limited"` → `"Delhivery"`).
-7. **No Semantic Equivalence**: Normalization canonicalizes syntax and scales; it does **not** assert that two metrics or periods mean the same thing (e.g., `Revenue` vs. `Revenue from operations` remain separate).
-
-> [!IMPORTANT]
-> **Normalization creates canonical representations; it does not establish semantic equivalence or relationships between facts.**
-
----
-
-## 6. Candidate Matching & Comparability Gate (Phase 4)
-
-The central reasoning boundary of FACTLINE enforces:
-> **"FACTLINE never compares numerical values until the claims have passed the Comparability Gate."**
-
-```text
-NormalizedFact A  +  NormalizedFact B
-              │
-              ▼
-    CandidateMatcher (Deterministic Signals)
-    ├── Strong Entity Alignment (canonical_entity match)
-    └── Metric Token Signals (exact match or key token overlap)
-              │
-              ▼
-    CandidatePair (plausible fact pair)
-              │
-              ▼
-    ComparabilityGate (Dimension Evaluation)
-    ├── Entity Dimension: Exact canonical entity equality
-    ├── Metric Dimension: Canonical metric equivalence (no semantic conflation)
-    ├── Unit Dimension: Canonical unit dimensional compatibility (INR vs INR, % vs %)
-    ├── Time Period Dimension: Exact bounded ISO interval match (FY24 != Q4 FY24)
-    ├── Scope Dimension: Explicit scope compatibility (missing is not same)
-    ├── Geography Dimension: Explicit geography compatibility (missing is not same)
-    ├── Epistemic Status: Diagnostic recording (reported vs estimated preserved)
-    └── Data Vintage: Diagnostic recording (advance estimates preserved)
-              │
-    ┌─────────┼─────────┐
-    ▼         ▼         ▼
-COMPARABLE  INSUFFICIENT  NON_COMPARABLE
-            CONTEXT
-```
-
-### Decision Semantics:
-- **`COMPARABLE`**: All essential dimensions (entity, metric, unit, bounded time interval) are compatible and sufficient context exists. Diagnostic reasons (`EPISTEMIC_STATUS_DIFFERENCE`, `DATA_VINTAGE_DIFFERENCE`) are preserved for subsequent relationship classification.
-- **`NON_COMPARABLE`**: A demonstrable incompatibility exists across one or more dimensions (`ENTITY_MISMATCH`, `METRIC_MISMATCH`, `UNIT_MISMATCH`, `TIME_MISMATCH`, `SCOPE_MISMATCH`, `GEOGRAPHY_MISMATCH`).
-- **`INSUFFICIENT_CONTEXT`**: Dimensions do not conflict, but missing essential context (`MISSING_TIME_PERIOD`, `MISSING_UNIT`, `MISSING_SCOPE`, `MISSING_GEOGRAPHY`) prevents a defensible comparison.
-
-### Key Rules & Invariants:
-1. **Candidate Matching vs. Comparability**: Candidate matching identifies plausible pairs using entity alignment and metric token signals without requiring exact equality as the sole gateway. The Comparability Gate then performs strict dimension evaluation.
-2. **Missing is Not Same**: An unspecified dimension (e.g. missing scope or geography on one fact) is never assumed to be equivalent to a specified dimension. It triggers `INSUFFICIENT_CONTEXT`.
-3. **Time Granularity Invariant**: Temporal interval containment (e.g. `Q4 FY24` lying inside `FY24`) is NOT temporal equivalence. Comparing an annual total against a quarterly total yields `TIME_MISMATCH` → `NON_COMPARABLE`.
-4. **Numeric Independence**: Numerical values are never used to determine candidate status or comparability. Facts are evaluated on their semantic and contextual dimensions regardless of numerical proximity.
-5. **No Relationship Inference**: Comparability only establishes whether two claims *can* legitimately be compared; it does **not** evaluate whether they corroborate, contradict, or resolve each other.
-
----
-
-## 7. Relationship Vocabulary & Engine (Phase 5)
-
-Comparable fact pairs are evaluated by the deterministic relationship engine into one of the following locked categories:
-
-- **`CORROBORATES`**: Two comparable claims describe identical underlying values or states within mathematically derived display precision tolerance (`EXACT_MATCH`).
-- **`CONTRADICTS`**: Two comparable claims describe materially conflicting values or states exceeding display precision resolution (`VALUE_CONFLICT`). Epistemic status differences by themselves NEVER produce `CONTRADICTS`.
-- **`CONTEXT_RESOLVES`**: Two comparable claims appear different at surface level, but become consistent once unit scales, rounding/precision boundaries, or reporting formats are resolved (`ROUNDING_DIFFERENCE`).
-- **`EVOLVES_FROM`**: A verified revision, subsequent advance estimate, or updated data vintage alters an earlier preliminary estimate (`ESTIMATE_REVISED`, `DATA_VINTAGE_EVOLUTION`). Requires explicit revision semantics, not merely different document dates.
-- **`SUPERSEDES`**: Explicit restatement, audited replacement, or formal supersession of an earlier claim (`EXPLICIT_RESTATEMENT`, `AUDITED_REVISION`).
-- **`UNRESOLVED`**: Insufficient context, non-comparable claims, or unverified relationships. Abstention is strictly enforced over guessing (`NON_COMPARABLE_CLAIMS`, `INSUFFICIENT_CONTEXT_FOR_RELATIONSHIP`, `EPISTEMIC_STATUS_INCOMPATIBLE`, `UNRESOLVED_VINTAGE_RELATIONSHIP`).
-
-### Mathematical Display Precision Derivation for Rounding:
-Instead of arbitrary epsilon thresholds (e.g. `0.01` or `1%`), FACTLINE determines precision dynamically:
-1. Parse decimal places from `value_raw` (e.g. `8142` -> 0 decimals; `81415.38` -> 2 decimals).
-2. Multiply by canonical unit scale (e.g., `crore` = $10^7$, `million` = $10^6$) to derive resolution $R_a = 10^{7 - 0} = 10^7$ and $R_b = 10^{6 - 2} = 10^4$.
-3. The display resolution tolerance is $\Delta_{\text{max}} = \frac{1}{2} \max(R_a, R_b)$.
-4. If $|\text{canonical\_val}_a - \text{canonical\_val}_b| \le \Delta_{\text{max}}$, the difference is mathematically auditable rounding (`CONTEXT_RESOLVES` + `ROUNDING_DIFFERENCE`).
-
-### Invariant Decision Hierarchy:
-```text
-1. Comparability Gate Check: If gate != COMPARABLE -> UNRESOLVED (preserve gate reasons; zero numerical evaluation)
-2. Epistemic Status Check: If TARGET / PROJECTED vs REPORTED / AUDITED -> UNRESOLVED (EPISTEMIC_STATUS_INCOMPATIBLE)
-3. Explicit Supersession Check: If explicit restatement/supersession detected -> SUPERSEDES (SUPERSEDES_PRIOR_ESTIMATE)
-4. Data Vintage / Revision Check: If sequential revision context established -> EVOLVES_FROM (DATA_VINTAGE_EVOLUTION)
-5. Numerical Evaluation:
-   ├── Exact equality -> CORROBORATES (EXACT_MATCH)
-   ├── Within implied display precision -> CONTEXT_RESOLVES (ROUNDING_DIFFERENCE)
-   └── Exceeds display precision -> CONTRADICTS (VALUE_CONFLICT)
-```
-
----
-
-## 7.1. End-to-End Analysis Orchestration & Persistence (Phase 6)
-
-The Analysis Orchestrator integrates Phases 1–5 into a unified, synchronous, deterministic workflow:
-
-```text
-POST /analysis (PDF Files)
-      │
-      ▼
-AnalysisService.analyze_documents()
-      │
-      ├── Step 1: Parse (PDFParser -> PageText, 1-indexed, content hash)
-      ├── Step 2: Extract (FactExtractor -> Page-by-page FactRecord extraction)
-      ├── Step 3: Normalize (FactNormalizer -> Derived NormalizedFact representations)
-      ├── Step 4: Candidate Match (CandidateMatcher -> Deterministic entity/metric signals)
-      ├── Step 5: Comparability Gate (ComparabilityGate -> COMPARABLE / NON_COMPARABLE / INSUFFICIENT_CONTEXT)
-      ├── Step 6: Relationship Engine (RelationshipEngine -> CORROBORATES, CONTRADICTS, CONTEXT_RESOLVES, etc.)
-      └── Step 7: Atomic SQLite Persistence (DatabaseRepository -> documents, facts, relationships, analyses)
-            │
-            ▼
-POST /analysis Response (analysis_id UUID, summary metrics)
-      │
-      ▼
-GET /analysis/{analysis_id} (Full inspection of documents, facts with provenance, and relationships)
-```
-
-### Key Orchestration & Persistence Invariants:
-1. **Execution Identity vs Entity Identity**:
-   - `analysis_id`: Generated UUID representing an analysis execution run.
-   - `document_id`, `fact_id`, `relationship_id`: Strictly deterministic. Analyzing the same PDF inputs maintains identical entity IDs across runs without duplicate row proliferation.
-2. **Numeric Isolation**: Numerical values are never used to generate candidates or infer comparability ("Numbers never create candidates").
-3. **Loss-Free Persistence**: Full `NormalizedFact` representations, warnings, canonical values, and raw source provenance are stored in SQLite and completely recoverable.
-4. **Failure Safety & Rollback**: Extraction errors and persistence exceptions abort the transaction, preventing corrupted or partial analyses.
-
----
-
-## 8. Division of Responsibilities: Deterministic vs LLM
-
-To guarantee correctness and auditability:
-
-| Responsibility Area | Handled By | Rationale |
-| :--- | :--- | :--- |
-| **Fact Discovery & Entity Extraction** | LLM (Gemini) | Interprets complex natural language in tables and prose page-by-page |
-| **Evidence Verification** | Deterministic Code | Strictly verifies supporting text exists verbatim on the document page |
-| **Unit & Scale Normalization** | Deterministic Code | Exact Decimal arithmetic for crore/million/percentage scales |
-| **Date & Interval Boundaries** | Deterministic Code | Bounded ISO intervals without assuming April-March blindly |
-| **Entity & Metric Canonicalization** | Deterministic Code | Legal suffix stripping, casing, and whitespace normalization |
-| **Candidate Fact Matching** | Deterministic Code | Entity alignment and metric token signals; zero numeric heuristics |
-| **Comparability Gate Rules** | Deterministic Code | Multi-dimensional evaluation enforcing strict comparison invariants |
-| **Relationship Reasoning** | Deterministic Code | Decision hierarchy: Gate -> Epistemic -> Supersedes -> Vintage -> Math |
-| **Explanation Generation** | Deterministic Code | Traceable, grounded explanation templates referencing exact provenance |
-| **Analysis Orchestration & DB** | Deterministic Code | Synchronous SQLite transactions, idempotency, and REST API |
-
----
-
-## 9. Evidence-First UI Concept
-
-The eventual user interface will provide an investigative workbench:
-- **Document Management**: Upload and inspect indexed PDF documents.
-- **Fact Browser**: Search and filter extracted facts with exact document, page number, and quote provenance.
-- **Relationship Matrix**: View pairwise relationships (`CORROBORATES`, `CONTRADICTS`, `CONTEXT_RESOLVES`, `EVOLVES_FROM`, `SUPERSEDES`, `UNRESOLVED`).
-- **Explanation Pane**: Side-by-side visual comparison showing the claim, source snippet, page number, normalized values, and contextual delta explanation.
-
----
-
-## 10. Explicit Non-Goals
-
-The following are explicitly **out of scope**:
-- Generic conversational chatbot interfaces.
-- Unconstrained agent swarms or autonomous multi-agent loops.
-- Graph databases (e.g. Neo4j) or heavy distributed vector search infrastructure.
-- Complex microservice architectures or container orchestration for prototype stage.
-- Hardcoded document-specific parsing rules or synthetic fact overrides.
+| Evaluation | Type | Result / Metric | Status |
+| :--- | :---: | :---: | :---: |
+| **Backend Test Suite** | MEASURED | 278 passed, 1 skipped (26 test files) | PASSED |
+| **Frontend Production Build** | MEASURED | Clean Vite build (138ms) | PASSED |
+| **Golden Case 1 (Rounding)** | MEASURED | `CONTEXT_RESOLVES` ($\Delta = 4.62\text{M} \le 5.0\text{M}$) | VERIFIED |
+| **Golden Case 2 (Vintage)** | MEASURED | `EVOLVES_FROM` (6.4% FAE $\rightarrow$ 6.5% SAE) | VERIFIED |
+| **Golden Case 3 (Context)** | MEASURED | `UNRESOLVED` (`TIME_MISMATCH`, `SCOPE_MISMATCH`) | VERIFIED |
+| **Golden Case 4 (Quota)** | MEASURED | Clean `PARTIAL_QUOTA` with facts retained | VERIFIED |
+| **Held-Out PDF Test (IMF India)** | MEASURED | 77 facts, 0 grounding rejections, 95-page doc | VERIFIED |
+| **Groq Provider Benchmark** | MEASURED | Gemini 5/5 (48 facts) vs. Groq 1/5 (1 fact) | BENCHMARKED |
